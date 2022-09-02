@@ -8,7 +8,6 @@
     android:background="#7DBCE8"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Screens.HomeScreen">
-    <!-- android:background="#7DBCE8" -->
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimationView"
@@ -22,15 +21,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
-        app:lottie_loop="true"/>
-<!--&lt;!&ndash;        app:lottie_rawRes="@raw/sheep_drive_car"&ndash;&gt;-->
-<!--        />-->
-
-    <!--    <ImageView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:src="@drawable/home_screen" />-->
-
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/sheep_drive_car"/>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
@@ -53,8 +45,6 @@
             app:fabCradleRoundedCornerRadius="32dp"
             app:menu="@menu/bottom_app_bar"
             app:navigationIcon="@drawable/ic_baseline_menu_24"/>
-<!--            app:navigationIcon="@drawable/ic_menu_24dp" -->
-
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/offer_ride_FAB"
