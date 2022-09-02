@@ -1,6 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/inner_cardview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@color/colorCardViewBackground"
+    android:orientation="vertical"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="8dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="1.5dp"
+        app:cardCornerRadius="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:padding="8dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/car_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/car_name_textview"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:text="ABC"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/car_image"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/horizontal_line"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="60dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/car_name_textview"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/vehicle_number_title_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:text="Vehicle No :-"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/horizontal_line"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/vehicle_number_textview"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="8dp"
+                android:text="Vehicle Number"
+                android:textSize="19sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/vehicle_number_title_textview"
+                app:layout_constraintTop_toBottomOf="@+id/horizontal_line"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/fuel_title_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:text="Fuel :-"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vehicle_number_title_textview"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/fuel_textview"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:text="Petrol"
+                android:textSize="19sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/air_conditioner_textview"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/fuel_title_textview"
+                app:layout_constraintTop_toBottomOf="@id/vehicle_number_textview"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/air_conditioner_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="75dp"
+                android:text="AC"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/fuel_textview"
+                app:layout_constraintTop_toBottomOf="@id/vehicle_number_textview"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/model_title_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:text="Model"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fuel_title_textview"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/model_year_textview"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:text="2014"
+                android:textSize="19sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/edit_button"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/model_title_textview"
+                app:layout_constraintTop_toBottomOf="@id/fuel_textview"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Button
+                android:id="@+id/edit_button"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/background_ripple_edit_button"
+                android:text="Edit"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/model_year_textview"
+                app:layout_constraintTop_toBottomOf="@id/air_conditioner_textview" />
+
+            <Button
+                android:id="@+id/delete_button"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/background_ripple_button_cancel"
+                android:text="Delete"
+                android:textColor="@color/colorButtonCancelText"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/model_year_textview"
+                app:layout_constraintTop_toBottomOf="@id/air_conditioner_textview" />
+
+            <Button
+                android:id="@+id/select_button"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/background_ripple_button_select"
+                android:text="Select"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/model_year_textview"
+                app:layout_constraintTop_toBottomOf="@id/air_conditioner_textview" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.cardview.widget.CardView>

@@ -14,4 +14,17 @@
     <color name="colorTextBlack">#000000</color>
     <color name="colorButtonCancelText">#C6403F</color>
     <color name="colorButtonCancelRipple">#FEA8A7</color>
+
+    <color name="colorPrimaryDark">#1990EE</color>
+    <color name="colorGrey">#D3D3D3</color>
+    <color name="colorRatingBar">#ffcc00</color>
+    <color name="colorCardViewBackground">#dddddd</color>
+    <color name="colorButtonRippleSelect">#60fc3f</color>
+    <color name="colorButtonSelect">#22ba03</color>
+    <color name="colorDarkSemiTransparent">#C6000000</color>
+    <color name="colorCallButtonRipple">#1F9C14</color>
+
+    <color name="colorIntroButton">#83BFF1</color>
+    <color name="colorGradientEnd">#777CED</color>
+
 </resources>
