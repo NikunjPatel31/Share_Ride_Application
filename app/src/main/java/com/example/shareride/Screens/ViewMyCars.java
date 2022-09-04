@@ -29,7 +29,7 @@ public class ViewMyCars extends AppCompatActivity {
 
     // local instance variable
     private CarsRecyclerViewAdapter carAdapter;
-    private ArrayList<Car> carList = new ArrayList<>();
+    public static ArrayList<Car> carList = new ArrayList<>();
 
     // components
     private RecyclerView carsRecyclerView;
@@ -104,7 +104,7 @@ public class ViewMyCars extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         Log.d(TAG, "onComplete: carList Size: "+carList.size());
-                        carAdapter = new CarsRecyclerViewAdapter(carList);
+                        carAdapter = new CarsRecyclerViewAdapter();
                         carsRecyclerView.setAdapter(carAdapter);
                     }
                 });

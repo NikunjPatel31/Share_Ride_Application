@@ -17,6 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shareride.Model.Car;
 import com.example.shareride.R;
+import com.example.shareride.Screens.ViewMyCars;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,10 +32,12 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CarsRecyclerViewAdapter extends RecyclerView.Adapter<CarsRecyclerViewAdapter.CarViewHolder> {
-    private ArrayList<Car> carList;
 
-    public CarsRecyclerViewAdapter(ArrayList<Car> carList) {
-        this.carList = carList;
+    private DatabaseReference databaseReference;
+    private StorageReference storageReference;
+    public CarsRecyclerViewAdapter() {
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     @NonNull
@@ -41,24 +51,62 @@ public class CarsRecyclerViewAdapter extends RecyclerView.Adapter<CarsRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull CarViewHolder holder, int position) {
-        holder.tvCarName.setText(carList.get(position).getCarName());
-        holder.tvVehicleNumber.setText(carList.get(position).getVehicleNumber());
-        Log.d(TAG, "onBindViewHolder: vehicleNumber: "+carList.get(position).getVehicleNumber());
-        holder.tvFuelType.setText(carList.get(position).getFuelType());
-        holder.tvAirConditioner.setText(carList.get(position).getAirConditioner());
-        holder.tvModelYear.setText(carList.get(position).getModelYear());
-        holder.setImage(carList.get(position).getCarImage());
+        holder.tvCarName.setText(ViewMyCars.carList.get(position).getCarName());
+        holder.tvVehicleNumber.setText(ViewMyCars.carList.get(position).getVehicleNumber());
+        Log.d(TAG, "onBindViewHolder: vehicleNumber: "+ViewMyCars.carList.get(position).getVehicleNumber());
+        holder.tvFuelType.setText(ViewMyCars.carList.get(position).getFuelType());
+        holder.tvAirConditioner.setText(ViewMyCars.carList.get(position).getAirConditioner());
+        holder.tvModelYear.setText(ViewMyCars.carList.get(position).getModelYear());
+        holder.setImage(ViewMyCars.carList.get(position).getCarImage());
+
+        holder.fabDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                databaseReference.child("Cars")
+                        .child(ViewMyCars.carList.get(holder.getAdapterPosition()).getCarId())
+                        .removeValue()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                ViewMyCars.carList.remove(holder.getAdapterPosition());
+                                notifyDataSetChanged();
+                                notifyItemRemoved(holder.getAdapterPosition());
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
+
+                storageReference.child("Car_Images")
+                        .child(ViewMyCars.carList.get(holder.getAdapterPosition()).getUserId())
+                        .child(ViewMyCars.carList.get(holder.getAdapterPosition()).getCarId())
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Log.d(TAG, "onSuccess: Car delete Successful" );
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onFailure: Car Image delete fail Exception: "+e.getLocalizedMessage());
+                            }
+                        });
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return carList.size();
+        return ViewMyCars.carList.size();
     }
 
     public static class CarViewHolder extends RecyclerView.ViewHolder {
         public CardView parentCardView;
         public TextView tvCarName, tvVehicleNumber, tvFuelType, tvAirConditioner, tvModelYear;
-        public Button btnEdit, btnDelete;
+        public FloatingActionButton fabDelete;
         public ImageView imgCarImage;
         public CarViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,8 +116,7 @@ public class CarsRecyclerViewAdapter extends RecyclerView.Adapter<CarsRecyclerVi
             tvFuelType = itemView.findViewById(R.id.fuel_text_view);
             tvAirConditioner = itemView.findViewById(R.id.air_conditioner_text_view);
             tvModelYear = itemView.findViewById(R.id.model_year_text_view);
-
-            //btnDelete = itemView.findViewById(R.id.delete_button);
+            fabDelete = itemView.findViewById(R.id.delete_car_fab);
             imgCarImage = itemView.findViewById(R.id.car_image_view);
 
         }
