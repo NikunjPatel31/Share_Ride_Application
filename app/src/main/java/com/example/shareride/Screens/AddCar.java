@@ -164,7 +164,6 @@ public class AddCar extends AppCompatActivity {
         DatabaseReference childDB = FirebaseDatabase.getInstance().
                 getReference()
                 .child("Cars")
-                .child(UID)
                 .push();
 
         String car_id = "";
@@ -205,6 +204,7 @@ public class AddCar extends AppCompatActivity {
             }
         });
 
+        childDB.child("User_id").setValue(UID);
         childDB.child("Car_name").setValue(carName);
         childDB.child("Model_year").setValue(carModel);
         childDB.child("Air_conditioner").setValue(airConditionerVal);

@@ -3,16 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_search"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         app:liftOnScroll="true"
         android:elevation="10dp"
         app:elevation="10dp"
+        android:background="@color/white"
         android:translationZ="4dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -24,11 +24,12 @@
                 android:id="@+id/available_rides_title_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
                 android:text="My Cars"
-                android:textAlignment="center"
-                android:textColor="@color/colorText"
-                android:textSize="36sp"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="25sp"
                 android:fontFamily="@font/poppins_medium" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -44,7 +45,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"/>
 
     </androidx.core.widget.NestedScrollView>
 
