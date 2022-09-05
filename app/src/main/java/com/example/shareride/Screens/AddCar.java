@@ -228,6 +228,6 @@ public class AddCar extends AppCompatActivity {
         }
     }
 
-    public void apply(View view) {
+    public void applyon(View view) {
     }
 }
