@@ -106,7 +106,8 @@ public class CarsRecyclerViewAdapter extends RecyclerView.Adapter<CarsRecyclerVi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context.getApplicationContext(), CarDetails.class);
-                
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("Car", ViewMyCars.carList.get(holder.getAdapterPosition()));
                 context.startActivity(intent);
             }
         });

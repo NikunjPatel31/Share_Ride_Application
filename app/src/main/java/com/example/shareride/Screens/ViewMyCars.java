@@ -104,7 +104,7 @@ public class ViewMyCars extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         Log.d(TAG, "onComplete: carList Size: "+carList.size());
-                        carAdapter = new CarsRecyclerViewAdapter();
+                        carAdapter = new CarsRecyclerViewAdapter(getApplicationContext());
                         carsRecyclerView.setAdapter(carAdapter);
                     }
                 });
