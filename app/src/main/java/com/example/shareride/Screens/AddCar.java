@@ -227,4 +227,7 @@ public class AddCar extends AppCompatActivity {
             cirImgCarProfile.setImageURI(resultUri);
         }
     }
+
+    public void apply(View view) {
+    }
 }

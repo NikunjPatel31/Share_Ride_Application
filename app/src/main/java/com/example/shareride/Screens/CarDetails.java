@@ -13,4 +13,5 @@ public class CarDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_details);
     }
+
 }

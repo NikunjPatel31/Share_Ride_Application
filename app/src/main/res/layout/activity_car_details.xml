@@ -1,9 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Screens.CarDetails">
+    tools:context=".Screens.AddCar">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/add_car_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textAlignment="center"
+            android:text="Add Car"
+            android:textSize="30sp"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="@color/white"
+            android:layout_marginTop="50dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/add_your_car_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_car_text_view"
+            android:text="Add your car"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/white"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/car_image_view"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_your_car_text_view"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/account"/>
+
+        <EditText
+            android:id="@+id/car_name_edit_text"
+            style="@style/EditTextStyle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/car_image_view"
+            android:layout_marginTop="40dp"
+            android:inputType="text"
+            android:hint="Car Name"/>
+
+        <EditText
+            android:id="@+id/model_year_edit_text"
+            style="@style/EditTextStyle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/car_name_edit_text"
+            android:hint="Model Year"
+            android:inputType="number"/>
+
+        <Spinner
+            android:id="@+id/air_conditioner_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/backgroundedittext"
+            android:spinnerMode="dialog"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/model_year_edit_text" />
+
+
+        <TextView
+            android:id="@+id/air_conditioner_textview"
+            style="@style/EditTextStyle"
+            android:elevation="0dp"
+            android:paddingTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/model_year_edit_text" />
+
+        <Spinner
+            android:id="@+id/fuel_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/backgroundedittext"
+            android:spinnerMode="dialog"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/air_conditioner_textview" />
+
+        <TextView
+            android:id="@+id/fuel_text_view"
+            style="@style/EditTextStyle"
+            android:elevation="0dp"
+            android:paddingTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/air_conditioner_textview" />
+
+        <EditText
+            android:id="@+id/vehicle_edittext"
+            style="@style/EditTextStyle"
+            android:hint="Vehicle Number"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fuel_text_view"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/apply_button"
+            style="@style/Positive_button_style"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:text="Apply"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cancel_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vehicle_edittext"
+            app:layout_constraintVertical_bias="0.42000002"
+            android:onClick="apply"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/cancel_button"
+            style="@style/Cancel_button_style"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:text="Cancel"
+            app:layout_constraintStart_toEndOf="@id/apply_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vehicle_edittext" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
