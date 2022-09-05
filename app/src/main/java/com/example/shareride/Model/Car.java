@@ -1,6 +1,9 @@
 package com.example.shareride.Model;
 
-public class Car {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Car implements Parcelable {
 
     String carName,
             fuelType,
@@ -29,6 +32,29 @@ public class Car {
         this.userId = userId;
         this.carId = carId;
     }
+
+    protected Car(Parcel in) {
+        carName = in.readString();
+        fuelType = in.readString();
+        modelYear = in.readString();
+        vehicleNumber = in.readString();
+        airConditioner = in.readString();
+        carImage = in.readString();
+        userId = in.readString();
+        carId = in.readString();
+    }
+
+    public static final Creator<Car> CREATOR = new Creator<Car>() {
+        @Override
+        public Car createFromParcel(Parcel in) {
+            return new Car(in);
+        }
+
+        @Override
+        public Car[] newArray(int size) {
+            return new Car[size];
+        }
+    };
 
     public String getCarName() {
         return carName;
@@ -92,5 +118,22 @@ public class Car {
 
     public void setCarId(String carId) {
         this.carId = carId;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(carName);
+        parcel.writeString(fuelType);
+        parcel.writeString(modelYear);
+        parcel.writeString(vehicleNumber);
+        parcel.writeString(airConditioner);
+        parcel.writeString(carImage);
+        parcel.writeString(userId);
+        parcel.writeString(carId);
     }
 }
