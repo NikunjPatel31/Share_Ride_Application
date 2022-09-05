@@ -2,6 +2,8 @@ package com.example.shareride.RecyclerViewAdapter;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shareride.Model.Car;
 import com.example.shareride.R;
+import com.example.shareride.Screens.CarDetails;
 import com.example.shareride.Screens.ViewMyCars;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,9 +38,11 @@ public class CarsRecyclerViewAdapter extends RecyclerView.Adapter<CarsRecyclerVi
 
     private DatabaseReference databaseReference;
     private StorageReference storageReference;
-    public CarsRecyclerViewAdapter() {
+    private Context context;
+    public CarsRecyclerViewAdapter(Context context) {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         storageReference = FirebaseStorage.getInstance().getReference();
+        this.context = context;
     }
 
     @NonNull
@@ -94,6 +99,15 @@ public class CarsRecyclerViewAdapter extends RecyclerView.Adapter<CarsRecyclerVi
                                 Log.d(TAG, "onFailure: Car Image delete fail Exception: "+e.getLocalizedMessage());
                             }
                         });
+            }
+        });
+
+        holder.parentCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context.getApplicationContext(), CarDetails.class);
+                
+                context.startActivity(intent);
             }
         });
     }
