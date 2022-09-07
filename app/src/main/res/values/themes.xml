@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="fontFamily">@font/poppins</item>
     </style>
 
     <style name="signinEdidText">
@@ -87,6 +88,12 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorButtonCancelText</item>
         <item name="android:background">@drawable/background_ripple_cancle_button</item>
+    </style>
+
+    <style name="TabItemTextSize">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/poppins</item>
     </style>
 
 </resources>

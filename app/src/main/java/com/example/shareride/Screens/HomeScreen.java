@@ -31,7 +31,7 @@ public class HomeScreen extends AppCompatActivity {
         bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), AddCar.class));
+                startActivity(new Intent(getApplicationContext(), Profile.class));
             }
         });
 //        FirebaseAuth mAuth = FirebaseAuth.getInstance();
