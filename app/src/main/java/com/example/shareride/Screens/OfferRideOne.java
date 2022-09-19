@@ -32,7 +32,7 @@ public class OfferRideOne extends AppCompatActivity implements DatePickerDialog.
         if (validateFields()) {
             sourceLocation = getIntent().getExtras().getParcelable("SourceLocation");
             destinationLocation = getIntent().getExtras().getParcelable("DestinationLocation");
-            Intent intent = new Intent(OfferRideOne.this,OfferRideOne.class);
+            Intent intent = new Intent(OfferRideOne.this,OfferRideTwo.class);
             intent.putExtra("Source Location",sourceLocation);
             intent.putExtra("Destination Location",destinationLocation);
             intent.putExtra("Time",time);

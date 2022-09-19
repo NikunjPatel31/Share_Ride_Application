@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/root_layout"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/background">
+
+<TextView
+    android:id="@+id/offer_ride_title_textview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="50dp"
+    android:text="Offer Ride"
+    android:textAlignment="center"
+    android:textColor="@color/colorText"
+    android:textSize="36sp"
+    android:textStyle="bold"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/offer_ride_description_textview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Add details for your ride"
+    android:textAlignment="center"
+    android:textColor="@color/colorText"
+    android:textSize="20sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/offer_ride_title_textview" />
+
+<TextView
+    android:id="@+id/seat_title_textview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="30dp"
+    android:layout_marginTop="50dp"
+    android:text="Seats"
+    android:textColor="@android:color/white"
+    android:textSize="24sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/offer_ride_description_textview"
+    app:layout_constraintVertical_bias="0.0" />
+
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/decrease_number_FAB"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@android:color/white"
+    android:onClick="decreaseNumber"
+    android:src="@drawable/ic_baseline_remove_24"
+    app:backgroundTint="@android:color/black"
+    app:borderWidth="2dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.43"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/offer_ride_description_textview"
+    app:layout_constraintVertical_bias="0.069" />
+
+<TextView
+    android:id="@+id/number_of_seats_textview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="40dp"
+    android:layout_marginTop="50dp"
+    android:text="0"
+    android:textColor="@android:color/white"
+    android:textSize="24sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toEndOf="@+id/decrease_number_FAB"
+    app:layout_constraintTop_toBottomOf="@id/offer_ride_description_textview"
+    app:layout_constraintVertical_bias="0.0" />
+
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/increase_number_FAB"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="40dp"
+    android:backgroundTint="@android:color/white"
+    android:onClick="increaseNumber"
+    android:src="@drawable/ic_baseline_add_24"
+    app:backgroundTint="@android:color/black"
+    app:borderWidth="2dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toEndOf="@id/number_of_seats_textview"
+    app:layout_constraintTop_toBottomOf="@id/offer_ride_description_textview"
+    app:layout_constraintVertical_bias="0.069" />
+
+<EditText
+    android:id="@+id/cost_per_seat_edittext"
+    style="@style/EditTextStyle"
+    android:hint="Cost per seat"
+    android:inputType="numberDecimal"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/decrease_number_FAB"
+    app:layout_constraintVertical_bias="0.0" />
+
+<androidx.appcompat.widget.AppCompatButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="50dp"
+    android:background="@drawable/background_ripple_button_apply"
+    android:onClick="offer"
+    android:paddingStart="60dp"
+    android:paddingEnd="60dp"
+    android:text="Offer"
+    android:textSize="18sp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/cost_per_seat_edittext" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
