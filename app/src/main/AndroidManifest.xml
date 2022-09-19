@@ -16,12 +16,14 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareRide"
-        android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".Screens.OfferRideOne"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -35,8 +37,12 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAziaDoRKMlgCY16gBA_CVqWV7WmpPaq0U" />
+            android:value="YOUR_API_KEY" />
 
+        <activity
+            android:name=".Screens.DestinationLocationScreen"
+            android:exported="false"
+            android:label="@string/title_activity_destination_location_screen" />
         <activity
             android:name=".Screens.SourceLocationScreen"
             android:exported="false"

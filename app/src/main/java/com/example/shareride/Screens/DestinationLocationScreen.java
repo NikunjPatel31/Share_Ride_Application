@@ -2,17 +2,6 @@ package com.example.shareride.Screens;
 
 import static android.content.ContentValues.TAG;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationRequest;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -20,11 +9,30 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationRequest;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import com.example.shareride.R;
+import com.example.shareride.databinding.ActivityDestinationLocationScreenBinding;
 import com.example.shareride.databinding.ActivitySourceLocationScreenBinding;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.*;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,20 +42,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import android.location.LocationListener;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class SourceLocationScreen extends FragmentActivity implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class DestinationLocationScreen extends FragmentActivity implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
-    private ActivitySourceLocationScreenBinding binding;
+    private @NonNull ActivityDestinationLocationScreenBinding binding;
     private Location lastKnowLocation;
     private GoogleApiClient mGoogleClient;
     private LocationRequest mLocationRequest;
@@ -68,8 +69,10 @@ public class SourceLocationScreen extends FragmentActivity implements OnMapReady
 
     public void next(View view) {
         centerScreenLatlng = mMap.getCameraPosition().target;
-        Intent intent = new Intent(getApplicationContext(), DestinationLocationScreen.class);
-        intent.putExtra("SourceLocation", centerScreenLatlng);
+        Intent intent = new Intent(getApplicationContext(), OfferRideOne.class);
+        intent.putExtra("DestinationLocation", centerScreenLatlng);
+        LatLng sourceLocation = getIntent().getExtras().getParcelable("SourceLocation");
+        intent.putExtra("SourceLocation", sourceLocation);
         startActivity(intent);
     }
 
@@ -77,7 +80,7 @@ public class SourceLocationScreen extends FragmentActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivitySourceLocationScreenBinding.inflate(getLayoutInflater());
+        binding = ActivityDestinationLocationScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -89,36 +92,6 @@ public class SourceLocationScreen extends FragmentActivity implements OnMapReady
         getDeviceLocation();
         initializeComponents();
         searchLocation();
-    }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                buildGoogleApiClient();
-                mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setMyLocationButtonEnabled(false);
-            }
-        } else {
-            buildGoogleApiClient();
-            mMap.setMyLocationEnabled(true);
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-        }
-       // getDeviceLocation();
-//        //addMarkerToPosition();
     }
 
     private void initializeComponents() {
@@ -165,7 +138,7 @@ public class SourceLocationScreen extends FragmentActivity implements OnMapReady
                             // for ActivityCompat#requestPermissions for more details.
                             return;
                         }
-                       // mMap.setMyLocationEnabled(true);
+                        // mMap.setMyLocationEnabled(true);
                         Log.d(TAG, "onComplete: We are inside the onComplete method");
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),DEFAULT_ZOOM));
                         //addMarker(new LatLng(location.getLatitude(), location.getLongitude()),DEFAULT_ZOOM);
@@ -201,10 +174,19 @@ public class SourceLocationScreen extends FragmentActivity implements OnMapReady
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
     }
 
-    private void addMarkerToPosition() {
-        Log.d(TAG, "addMarkerToPosition: adding marker to the source location.");
-        LatLng sourceLocation = getIntent().getExtras().getParcelable("Source_Location");
-        addMarker(sourceLocation, DEFAULT_ZOOM);
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
     }
 
     @Override
