@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Screens.PreferenceActivity">
+
+    <TextView
+        android:id="@+id/add_car_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textAlignment="center"
+        android:text="Preferences"
+        android:textSize="30sp"
+        android:fontFamily="@font/poppins_medium"
+        android:textColor="@color/white"
+        android:layout_marginTop="50dp"
+        android:textStyle="bold"/>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="20dp"
+        android:padding="0dp"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10px">
+
+            <TextView
+                android:id="@+id/nsmoker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Non Smoker"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnnsmoker"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:background="@color/colorIntroButton"
+                android:src="@drawable/ic_baseline_add_24"
+                app:fabCustomSize="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@id/nsmoker"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/nbabies"
+                android:layout_marginTop="7dp"
+                app:layout_constraintTop_toBottomOf="@id/nsmoker"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="No Babies"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnnbabies"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginTop="25dp"
+                android:background="@color/colorIntroButton"
+                android:src="@drawable/ic_baseline_add_24"
+                app:fabCustomSize="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@id/nbabies"
+                app:layout_constraintTop_toTopOf="@id/btnnsmoker" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/nbabies"
+                android:layout_marginTop="7px"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/adult"
+                android:text="Adult"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnadult"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginTop="25dp"
+                android:background="@color/colorIntroButton"
+                android:src="@drawable/ic_baseline_add_24"
+                app:fabCustomSize="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btnnbabies" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/omen"
+                android:layout_marginTop="7px"
+                app:layout_constraintTop_toBottomOf="@id/adult"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Only Men"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnomen"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginTop="25dp"
+                android:background="@color/colorIntroButton"
+                android:src="@drawable/ic_baseline_add_24"
+                app:fabCustomSize="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btnadult" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/owomen"
+                android:layout_marginTop="7px"
+                app:layout_constraintTop_toBottomOf="@id/omen"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Only Women"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnowomen"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginTop="25dp"
+                android:background="@color/colorIntroButton"
+                android:src="@drawable/ic_baseline_add_24"
+                app:fabCustomSize="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btnomen" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/npet"
+                android:layout_marginTop="7px"
+                app:layout_constraintTop_toBottomOf="@id/owomen"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="No pet"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnnpet"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginTop="25dp"
+                android:background="@color/colorIntroButton"
+                android:src="@drawable/ic_baseline_add_24"
+                app:fabCustomSize="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btnowomen" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/preferences_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>

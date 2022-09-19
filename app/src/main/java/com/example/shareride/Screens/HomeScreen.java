@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,7 @@ public class HomeScreen extends AppCompatActivity {
 
     // components
     private BottomAppBar bottomAppBar;
-
+    Button preferences;
     public void add(View view) {
     }
 
@@ -34,6 +35,15 @@ public class HomeScreen extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), Profile.class));
             }
         });
+
+        preferences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), PreferenceActivity.class);
+                startActivity(i);
+
+            }
+        });
 //        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 //        mAuth.signOut();
     }
@@ -41,6 +51,7 @@ public class HomeScreen extends AppCompatActivity {
     private void initializeComponents() {
         // this method will be used to initialze all the components
         bottomAppBar = findViewById(R.id.bottom_action_bar);
+        preferences = findViewById(R.id.prefrences);
     }
 
     @Override
@@ -65,9 +76,6 @@ public class HomeScreen extends AppCompatActivity {
         }
 
         return true;
-
-
-
 
     }
 }
