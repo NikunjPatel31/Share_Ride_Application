@@ -48,6 +48,11 @@
         <item name="android:background">@drawable/login_button_background</item>
     </style>
 
+    Intent intent = new Intent(getApplicationContext(), secondActivity.class);
+    intent.setFlag(Intent.FLAG_CLEAR_TOP);
+    startActivity(intent);
+
+
     <style name="EditTextStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">47dp</item>

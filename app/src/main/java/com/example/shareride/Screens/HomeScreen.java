@@ -18,6 +18,7 @@ public class HomeScreen extends AppCompatActivity {
     private BottomAppBar bottomAppBar;
 
     public void add(View view) {
+        startActivity(new Intent(getApplicationContext(), SourceLocationScreen.class));
     }
 
     @Override
@@ -56,18 +57,12 @@ public class HomeScreen extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.app_bar_search:
-                Intent intent = new Intent(getApplicationContext(), EditProfile.class);
-                startActivity(intent);
                 break;
             case R.id.app_bar_notification:
-                startActivity(new Intent(getApplicationContext(), ViewMyCars.class));
                 break;
         }
 
         return true;
-
-
-
 
     }
 }

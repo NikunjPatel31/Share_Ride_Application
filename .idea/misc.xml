@@ -7,13 +7,17 @@
         <entry key="..\:/Users/HP/OneDrive/Documents/GitHub/Share_Ride_Application/app/src/main/res/layout/activity_car_details.xml" value="0.25" />
         <entry key="..\:/Users/HP/OneDrive/Documents/GitHub/Share_Ride_Application/app/src/main/res/layout/activity_edit_car.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/HP/OneDrive/Documents/GitHub/Share_Ride_Application/app/src/main/res/layout/activity_edit_profile.xml" value="0.25" />
+        <entry key="..\:/Users/nikun/AndroidStudioProjects/ShareRide/Share_Ride_Application/app/src/main/res/drawable/backgroundedittext.xml" value="0.1" />
+        <entry key="..\:/Users/nikun/AndroidStudioProjects/ShareRide/Share_Ride_Application/app/src/main/res/layout/activity_edit_profile.xml" value="0.1" />
         <entry key="..\:/Users/nikun/AndroidStudioProjects/ShareRide/Share_Ride_Application/app/src/main/res/layout/activity_home_screen.xml" value="0.1" />
+        <entry key="..\:/Users/nikun/AndroidStudioProjects/ShareRide/Share_Ride_Application/app/src/main/res/layout/activity_sign_up.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/nikun/AndroidStudioProjects/ShareRide/Share_Ride_Application/app/src/main/res/layout/activity_source_location_screen.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/nikun/AndroidStudioProjects/ShareRide2/app/src/main/res/layout/activity_add_car.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/nikun/AndroidStudioProjects/ShareRide2/app/src/main/res/menu/bottom_app_bar.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

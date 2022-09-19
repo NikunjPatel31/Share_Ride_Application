@@ -72,6 +72,7 @@ public class CarDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_details);
+        getWindow().setBackgroundDrawableResource(R.drawable.background);
         Intent intent = getIntent();
         car = intent.getParcelableExtra("Car");
         Log.d(TAG, "onCreate: Car: "+car.getCarName());
