@@ -40,7 +40,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="AIzaSyAziaDoRKMlgCY16gBA_CVqWV7WmpPaq0U" />
 
         <activity
             android:name=".Screens.DestinationLocationScreen"
