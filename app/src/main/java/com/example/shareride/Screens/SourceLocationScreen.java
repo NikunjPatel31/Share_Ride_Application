@@ -245,7 +245,7 @@ public class SourceLocationScreen extends FragmentActivity implements OnMapReady
     private void geoLocate() {
         Log.d(TAG, "geoLocate: geolocating to the specified location.");
 
-        String searchString =  "Mumbai";//searchSourceET.getText().toString();
+        String searchString = etSearch.getText().toString();
 
         Geocoder geocoder = new Geocoder(getApplicationContext());
         List<Address> list = new ArrayList<>();
