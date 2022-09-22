@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/preferences_title_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/preferencesTextView"
+        android:layout_marginTop="10dp"
+        android:text="Non Smoker"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:text="Item 1"
-        android:textSize="18sp"
-        app:layout_goneMarginTop="10dp"
-        android:fontFamily="@font/poppins"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/preferences_button"
@@ -25,12 +22,11 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/preferences_title_text_view"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
         android:src="@drawable/ic_baseline_horizontal_rule_24"
         app:fabCustomSize="25dp"
         app:background="@color/black"
         android:backgroundTint="@color/white"
-        app:borderWidth="1dp" />
+        app:borderWidth="1dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
