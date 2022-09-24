@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.shareride.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -21,10 +23,12 @@ import java.util.Calendar;
 public class OfferRideOne extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private static final String TAG = "OfferRideOne";
-    private TextView tvDate, tvTime;
-
+    private TextView tvDate, tvTime, tvNumberOfSeats;
+    private EditText etCostPerSeat;
     private String time = "";
     private String date = "";
+    private int numbersOfSeats = 0;
+    private String costPerSeats = "";
 
     private LatLng sourceLocation, destinationLocation;
 
@@ -32,13 +36,29 @@ public class OfferRideOne extends AppCompatActivity implements DatePickerDialog.
         if (validateFields()) {
             sourceLocation = getIntent().getExtras().getParcelable("SourceLocation");
             destinationLocation = getIntent().getExtras().getParcelable("DestinationLocation");
-            Intent intent = new Intent(OfferRideOne.this,OfferRideTwo.class);
+            Intent intent = new Intent(OfferRideOne.this,PreferenceActivity.class);
             intent.putExtra("Source Location",sourceLocation);
             intent.putExtra("Destination Location",destinationLocation);
             intent.putExtra("Time",time);
             intent.putExtra("Date",date);
+            intent.putExtra("Seats", numbersOfSeats);
+            intent.putExtra("Cost_per_seats", etCostPerSeat.getText().toString());
             startActivity(intent);
+        } else {
+            Toast.makeText(this, "Please fill the required fields", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void decreaseNumber(View view) {
+        int value = Integer.parseInt(tvNumberOfSeats.getText().toString());
+        if (value > 0) {
+            tvNumberOfSeats.setText(""+(--value));
+        }
+    }
+
+    public void increaseNumber(View view) {
+        int value = Integer.parseInt(tvNumberOfSeats.getText().toString());
+        tvNumberOfSeats.setText(""+(++value));
     }
 
     @Override
@@ -54,6 +74,8 @@ public class OfferRideOne extends AppCompatActivity implements DatePickerDialog.
         // this method will initialize all the components
         tvDate = findViewById(R.id.date_textview);
         tvTime = findViewById(R.id.time_textview);
+        etCostPerSeat = findViewById(R.id.cost_per_seat_edittext);
+        tvNumberOfSeats = findViewById(R.id.number_of_seats_textview);
     }
 
     private void textviewListener() {
@@ -126,14 +148,8 @@ public class OfferRideOne extends AppCompatActivity implements DatePickerDialog.
 
     private boolean validateFields()
     {
-        Log.d(TAG, "validateFields: Validating fields.");
-        if(date.equals("") || time.equals(""))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        numbersOfSeats = Integer.parseInt(tvNumberOfSeats.getText().toString());
+        costPerSeats = etCostPerSeat.getText().toString();
+        return !date.equals("") && !time.equals("") && numbersOfSeats >= 1 && !costPerSeats.equals("");
     }
 }

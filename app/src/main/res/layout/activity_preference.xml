@@ -206,4 +206,17 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:onClick="offerRide"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/preferences_option_selected_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Offer ride"
+        android:layout_marginHorizontal="20dp"
+        style="@style/Positive_button_style"
+        android:background="@drawable/background_ripple_button_apply"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,31 +1,59 @@
 package com.example.shareride.Screens;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.shareride.R;
 import com.example.shareride.RecyclerViewAdapter.PreferencesOptionRecyclerViewAdapter;
 import com.example.shareride.RecyclerViewAdapter.PreferencesRecyclerViewAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class PreferenceActivity extends AppCompatActivity {
 
     // component
-    FloatingActionButton btnnsmoker,btnnbabies,btnadult,btnomen,btnowomen,btnnpet;
     RecyclerView recyclerView, preferencesOptionRecyclerView;
 
     // local instances
+    private static final String TAG = "PreferenceActivity";
     ArrayList<String> list = new ArrayList<>();
     ArrayList<String> preferencesOptionList = new ArrayList<>();
-    Boolean isSmoker=false;
     PreferencesRecyclerViewAdapter adapter;
+    LatLng sourceLocation;
+    LatLng destinationLocation;
+    int numberOfSeats = 0;
+    String costPerSeat = "";
+    String date = "", time = "";
+
+    // firebase instances
+    DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+
+    public void offerRide(View view) {
+        sourceLocation = getIntent().getExtras().getParcelable("Source Location");
+        destinationLocation = getIntent().getExtras().getParcelable("Destination Location");
+        numberOfSeats = getIntent().getIntExtra("Seats",0);
+        costPerSeat = getIntent().getStringExtra("Cost_per_seats");
+        date = getIntent().getStringExtra("Date");
+        time = getIntent().getStringExtra("Time");
+
+        Log.d(TAG, "offerRide: source location: "+sourceLocation.latitude);
+        Log.d(TAG, "offerRide: destination location: "+destinationLocation.latitude);
+        Log.d(TAG, "offerRide: number of seats: "+numberOfSeats);
+        Log.d(TAG, "offerRide: cost per seats: "+costPerSeat);
+        Log.d(TAG, "offerRide: date: "+date);
+        Log.d(TAG, "offerRide: Time: "+time);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,34 +61,12 @@ public class PreferenceActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawableResource(R.drawable.background);
         initializeComponents();
 
-//        list.add("No Smoking");
-//        list.add("No babies");
-//        list.add("No krupa");
-//        list.add("No jeetu");
-
         preferencesOptionList.add("Non Somker");
         preferencesOptionList.add("No Babies");
         preferencesOptionList.add("Adult");
         preferencesOptionList.add("Only men");
         preferencesOptionList.add("Only women");
         preferencesOptionList.add("No pet");
-
-//        btnnsmoker.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (!isSmoker) {
-//                    isSmoker = true;
-//                    list.add("No smoking");
-//                    adapter = new PreferencesRecyclerViewAdapter(list,PreferenceActivity.this);
-//                    recyclerView.setAdapter(adapter);
-//
-////                    btnnsmoker.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_horizontal_rule_24));
-//                } else {
-//                    isSmoker = false;
-//                    btnnsmoker.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_add_24));
-//                }
-//            }
-//        });
 
         PreferencesOptionRecyclerViewAdapter preferencesOptionRecyclerViewAdapter
                 = new PreferencesOptionRecyclerViewAdapter(preferencesOptionList, getApplicationContext());

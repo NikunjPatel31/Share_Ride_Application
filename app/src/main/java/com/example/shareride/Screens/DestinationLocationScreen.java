@@ -69,6 +69,7 @@ public class DestinationLocationScreen extends FragmentActivity implements OnMap
 
     public void next(View view) {
         centerScreenLatlng = mMap.getCameraPosition().target;
+        Log.d(TAG, "next: Destination location: "+centerScreenLatlng.latitude);
         Intent intent = new Intent(getApplicationContext(), OfferRideOne.class);
         intent.putExtra("DestinationLocation", centerScreenLatlng);
         LatLng sourceLocation = getIntent().getExtras().getParcelable("SourceLocation");
