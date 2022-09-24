@@ -22,7 +22,6 @@
         android:theme="@style/Theme.ShareRide"
         tools:targetApi="31">
         <activity
-
             android:name=".Screens.OfferRideTwo"
             android:exported="false" />
         <activity
@@ -59,6 +58,12 @@
             android:exported="false" />
         <activity
             android:name=".Screens.CarDetails"
+            android:exported="false"/>
+        <activity
+            android:name=".Screens.AvailableRide"
+            android:exported="false" />
+        <activity
+            android:name=".Screens.SearchRide"
             android:exported="false" />
         <activity
             android:name=".Screens.ViewMyCars"

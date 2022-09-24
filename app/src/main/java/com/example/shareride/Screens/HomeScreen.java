@@ -17,6 +17,8 @@ public class HomeScreen extends AppCompatActivity {
 
     // components
     private BottomAppBar bottomAppBar;
+    private Button search;
+
     public void add(View view) {
         startActivity(new Intent(getApplicationContext(), SourceLocationScreen.class));
     }
@@ -29,6 +31,7 @@ public class HomeScreen extends AppCompatActivity {
         initializeComponents();
         setSupportActionBar(bottomAppBar);
 
+
         bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,7 +40,17 @@ public class HomeScreen extends AppCompatActivity {
         });
 //        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 //        mAuth.signOut();
+
+        search=findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SearchRide.class));
+
+            }
+        });
     }
+
 
     private void initializeComponents() {
         // this method will be used to initialze all the components
