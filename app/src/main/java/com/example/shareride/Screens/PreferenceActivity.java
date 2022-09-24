@@ -1,5 +1,6 @@
 package com.example.shareride.Screens;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,10 +15,16 @@ import com.example.shareride.R;
 import com.example.shareride.RecyclerViewAdapter.PreferencesOptionRecyclerViewAdapter;
 import com.example.shareride.RecyclerViewAdapter.PreferencesRecyclerViewAdapter;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PreferenceActivity extends AppCompatActivity {
 
@@ -36,7 +43,7 @@ public class PreferenceActivity extends AppCompatActivity {
     String date = "", time = "";
 
     // firebase instances
-    DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public void offerRide(View view) {
         sourceLocation = getIntent().getExtras().getParcelable("Source Location");
@@ -52,6 +59,33 @@ public class PreferenceActivity extends AppCompatActivity {
         Log.d(TAG, "offerRide: cost per seats: "+costPerSeat);
         Log.d(TAG, "offerRide: date: "+date);
         Log.d(TAG, "offerRide: Time: "+time);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("Source Location", sourceLocation);
+        map.put("Destination Location", destinationLocation);
+        map.put("Seats", numberOfSeats);
+        map.put("Cost Per Seats", costPerSeat);
+        map.put("Date", date);
+        map.put("Time", time);
+        map.put("Preferences", list);
+
+        db.collection("Offer Ride")
+                .add(map)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "onComplete: offer ride uploaded successfully.");
+                        }  else {
+                            Log.d(TAG, "onComplete: Exception: "+task.getException().getLocalizedMessage());
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Exception: "+e.getLocalizedMessage());
+                    }
+                });
     }
 
     @Override
