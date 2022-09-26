@@ -24,7 +24,7 @@
     <color name="colorButtonSelect">#22ba03</color>
     <color name="colorDarkSemiTransparent">#C6000000</color>
     <color name="colorCallButtonRipple">#1F9C14</color>
-
+    <color name="colorExtraDarkGrey">#616161</color>
     <color name="colorIntroButton">#83BFF1</color>
     <color name="colorGradientEnd">#777CED</color>
 

@@ -17,7 +17,6 @@ public class HomeScreen extends AppCompatActivity {
 
     // components
     private BottomAppBar bottomAppBar;
-    private Button search;
 
     public void add(View view) {
         startActivity(new Intent(getApplicationContext(), SourceLocationScreen.class));
@@ -41,14 +40,6 @@ public class HomeScreen extends AppCompatActivity {
 //        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 //        mAuth.signOut();
 
-        search=findViewById(R.id.search);
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SearchRide.class));
-
-            }
-        });
     }
 
 
@@ -70,8 +61,10 @@ public class HomeScreen extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.app_bar_search:
+                startActivity(new Intent(HomeScreen.this, SearchRide.class));
                 break;
             case R.id.app_bar_notification:
+                startActivity(new Intent(HomeScreen.this, Notification.class));
                 break;
         }
 

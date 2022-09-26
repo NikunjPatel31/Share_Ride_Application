@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.shareride.R;
 import com.example.shareride.Screens.AddCar;
 import com.example.shareride.Screens.EditProfile;
+import com.example.shareride.Screens.MyOfferedRides;
 import com.example.shareride.Screens.ViewMyCars;
 
 /**
@@ -23,7 +24,7 @@ import com.example.shareride.Screens.ViewMyCars;
 public class ProfileFragment extends Fragment {
 
     // components
-    private TextView tvEditDetails, tvAddCar, tvViewCars;
+    private TextView tvEditDetails, tvAddCar, tvViewCars, tvMyOfferedRides;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,6 +80,7 @@ public class ProfileFragment extends Fragment {
         tvEditDetails = view.findViewById(R.id.edit_details_textview);
         tvAddCar = view.findViewById(R.id.add_car_textview);
         tvViewCars = view.findViewById(R.id.view_my_car_textview);
+        tvMyOfferedRides = view.findViewById(R.id.my_offered_rides_text_view);
     }
 
     private void clickListener() {
@@ -100,6 +102,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity().getApplicationContext(), AddCar.class));
+            }
+        });
+
+        tvMyOfferedRides.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity().getApplicationContext(), MyOfferedRides.class));
             }
         });
     }

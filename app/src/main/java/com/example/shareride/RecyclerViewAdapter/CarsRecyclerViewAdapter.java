@@ -39,6 +39,7 @@ public class CarsRecyclerViewAdapter extends RecyclerView.Adapter<CarsRecyclerVi
     private DatabaseReference databaseReference;
     private StorageReference storageReference;
     private Context context;
+
     public CarsRecyclerViewAdapter(Context context) {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         storageReference = FirebaseStorage.getInstance().getReference();

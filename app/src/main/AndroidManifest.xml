@@ -22,6 +22,27 @@
         android:theme="@style/Theme.ShareRide"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.SelectCarActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Screens.MyOfferedRides"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Screens.Notification"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Screens.OfferRideTwo"
             android:exported="false" />
         <activity
@@ -58,7 +79,7 @@
             android:exported="false" />
         <activity
             android:name=".Screens.CarDetails"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Screens.AvailableRide"
             android:exported="false" />
