@@ -10,6 +10,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.shareride.MapsActivity;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.example.shareride.R;
 
@@ -17,6 +18,10 @@ public class HomeScreen extends AppCompatActivity {
 
     // components
     private BottomAppBar bottomAppBar;
+
+    public void click(View view) {
+        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+    }
 
     public void add(View view) {
         startActivity(new Intent(getApplicationContext(), SourceLocationScreen.class));

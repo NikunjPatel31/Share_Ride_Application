@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shareride.Model.OfferedRide;
@@ -27,9 +28,18 @@ public class OfferedRidesRecyclerViewAdapter extends RecyclerView.Adapter<Offere
     private Context context;
     private static final String TAG = "OfferedRidesRecycler";
     private static RideDeleteListener rideDeleteListener;
+    private static RideSelectListener rideSelectListener;
+
+    public interface RideSelectListener {
+        void onRideSelectListener(OfferedRide ride);
+    }
 
     public interface RideDeleteListener {
         void onRideDeleteListener(int position, OfferedRide ride);
+    }
+
+    public static void setRideSelectListener(RideSelectListener mListener) {
+        rideSelectListener = mListener;
     }
 
     public static void setRideDeleteListener(RideDeleteListener mListener) {
@@ -85,6 +95,13 @@ public class OfferedRidesRecyclerViewAdapter extends RecyclerView.Adapter<Offere
                         list.get(holder.getAdapterPosition()));
             }
         });
+
+        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rideSelectListener.onRideSelectListener(list.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override
@@ -100,6 +117,8 @@ public class OfferedRidesRecyclerViewAdapter extends RecyclerView.Adapter<Offere
                 tvSeats,
                 tvCostPerSeats;
 
+        private CardView parentLayout;
+
         private AppCompatButton cancelBtn;
         public OfferedRidesViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -110,6 +129,7 @@ public class OfferedRidesRecyclerViewAdapter extends RecyclerView.Adapter<Offere
             tvSeats = itemView.findViewById(R.id.seats_value_text_view);
             tvCostPerSeats = itemView.findViewById(R.id.cost_value_textView);
             cancelBtn = itemView.findViewById(R.id.cancel_button);
+            parentLayout = itemView.findViewById(R.id.offer_ride_parent_layout);
         }
     }
 }

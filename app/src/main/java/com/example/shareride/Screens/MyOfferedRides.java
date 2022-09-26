@@ -45,6 +45,13 @@ public class MyOfferedRides extends AppCompatActivity {
         initializeComponents();
         recyclerView.setLayoutManager(new LinearLayoutManager(MyOfferedRides.this));
 
+        OfferedRidesRecyclerViewAdapter.setRideSelectListener(new OfferedRidesRecyclerViewAdapter.RideSelectListener() {
+            @Override
+            public void onRideSelectListener(OfferedRide ride) {
+                // Write code to navigate from MyOfferedRide to RideInfo Activity
+            }
+        });
+
         OfferedRidesRecyclerViewAdapter.setRideDeleteListener(new OfferedRidesRecyclerViewAdapter.RideDeleteListener() {
             @Override
             public void onRideDeleteListener(int position, OfferedRide ride) {
