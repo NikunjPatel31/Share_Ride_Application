@@ -1,5 +1,9 @@
 package com.example.shareride.RecyclerViewAdapter;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +18,27 @@ import com.example.shareride.R;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class OfferedRidesRecyclerViewAdapter extends RecyclerView.Adapter<OfferedRidesRecyclerViewAdapter.OfferedRidesViewHolder> {
 
     private ArrayList<OfferedRide> list;
+    private Context context;
+    private static final String TAG = "OfferedRidesRecycler";
+    private static RideDeleteListener rideDeleteListener;
 
-    public OfferedRidesRecyclerViewAdapter(ArrayList<OfferedRide> list) {
+    public interface RideDeleteListener {
+        void onRideDeleteListener(int position, OfferedRide ride);
+    }
+
+    public static void setRideDeleteListener(RideDeleteListener mListener) {
+        rideDeleteListener = mListener;
+    }
+
+    public OfferedRidesRecyclerViewAdapter(ArrayList<OfferedRide> list, Context context) {
         this.list = list;
+        this.context = context;
     }
 
     @NonNull
@@ -35,10 +53,38 @@ public class OfferedRidesRecyclerViewAdapter extends RecyclerView.Adapter<Offere
     public void onBindViewHolder(@NonNull OfferedRidesViewHolder holder, int position) {
         LatLng sourceLocation = list.get(position).getSourceLocation();
         LatLng destinationLocation = list.get(position).getDestinationLocation();
+
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(sourceLocation.latitude, sourceLocation.longitude,1);
+            String address = addresses.get(0).getSubLocality();
+            String cityName = addresses.get(0).getLocality();
+            String stateName = addresses.get(0).getAdminArea();
+            holder.tvSourceLocation.setText(address+", "+cityName+", "+stateName);
+
+            addresses = geocoder.getFromLocation(destinationLocation.latitude, destinationLocation.longitude, 1);
+
+            address = addresses.get(0).getSubLocality();
+            cityName = addresses.get(0).getLocality();
+            stateName = addresses.get(0).getAdminArea();
+            Log.d(TAG, "onBindViewHolder: Address: "+address+", "+cityName+", "+stateName);
+
+            holder.tvDestinationLocation.setText(address+", "+cityName+", "+stateName);
+        } catch (Exception e) {
+            Log.d(TAG, "onBindViewHolder: Exception: "+e.getLocalizedMessage());
+        }
         holder.tvTime.setText(list.get(position).getTime());
         holder.tvDate.setText(list.get(position).getDate());
         holder.tvCostPerSeats.setText(list.get(position).getCostPerSeats()+" Rs");
         holder.tvSeats.setText(""+list.get(position).getSeats());
+
+        holder.cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rideDeleteListener.onRideDeleteListener(holder.getAdapterPosition(),
+                        list.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override

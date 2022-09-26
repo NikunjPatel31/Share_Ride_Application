@@ -13,6 +13,7 @@ import com.example.shareride.R;
 import com.example.shareride.RecyclerViewAdapter.OfferedRidesRecyclerViewAdapter;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -43,6 +44,31 @@ public class MyOfferedRides extends AppCompatActivity {
         setContentView(R.layout.activity_my_offered_rides);
         initializeComponents();
         recyclerView.setLayoutManager(new LinearLayoutManager(MyOfferedRides.this));
+
+        OfferedRidesRecyclerViewAdapter.setRideDeleteListener(new OfferedRidesRecyclerViewAdapter.RideDeleteListener() {
+            @Override
+            public void onRideDeleteListener(int position, OfferedRide ride) {
+                db.collection("Offer Ride")
+                        .document(ride.getRideID())
+                        .delete()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    offeredRideList.remove(position);
+                                    adapter.notifyItemRemoved(position);
+                                } else {
+                                    Log.d(TAG, "onComplete: Exception: "+task.getException().getLocalizedMessage());
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onFailure: Exception: "+e.getLocalizedMessage());
+                            }
+                        });
+            }
+        });
     }
 
     private void initializeComponents() {
@@ -86,7 +112,7 @@ public class MyOfferedRides extends AppCompatActivity {
 
                                 offeredRideList.add(offeredRide);
                             }
-                            adapter = new OfferedRidesRecyclerViewAdapter(offeredRideList);
+                            adapter = new OfferedRidesRecyclerViewAdapter(offeredRideList, getApplicationContext());
                             recyclerView.setAdapter(adapter);
                         } else {
                             Log.d(TAG, "onComplete: Exception: "+task.getException().getLocalizedMessage());

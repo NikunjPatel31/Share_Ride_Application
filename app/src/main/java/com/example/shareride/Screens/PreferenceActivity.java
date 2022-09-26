@@ -175,4 +175,9 @@ public class PreferenceActivity extends AppCompatActivity {
         preferencesOptionRecyclerView = findViewById(R.id.preferences_option_recycler_view);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        list.clear();
+    }
 }
