@@ -1,26 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="match_parent"
     tools:context=".Screens.SearchRide"
     android:background="@drawable/background">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageButton
-            android:id="@+id/img_btn_back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/ic_baseline_arrow_back_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"/>
 
         <TextView
             android:id="@+id/search_ride_text_view"
@@ -31,12 +17,11 @@
             app:layout_constraintTop_toTopOf="parent"
             android:textAlignment="center"
             android:text="Search Ride"
-            android:textSize="30sp"
+            android:textSize="28sp"
             android:fontFamily="@font/poppins_medium"
             android:textColor="@color/white"
             android:layout_marginTop="50dp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/source_location_edit_text"
@@ -54,46 +39,43 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/source_location_edit_text"
-            android:layout_marginTop="20dp"
             android:inputType="text"
             android:hint="Destination Location"/>
 
-        <EditText
-            android:id="@+id/date_edit_text"
+        <TextView
+            android:id="@+id/date_text_view"
             style="@style/EditTextStyle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/destination_location_edit_text"
-            android:layout_marginTop="20dp"
-            android:inputType="number"
-            android:hint="Date"
-            />
+            android:text="Date"/>
 
-        <EditText
-            android:id="@+id/time_edit_text"
+        <TextView
+            android:id="@+id/time_text_view"
             style="@style/EditTextStyle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date_edit_text"
-            android:layout_marginTop="20dp"
-            android:inputType="number"
-            android:hint="Time"/>
+            app:layout_constraintTop_toBottomOf="@id/date_text_view"
+            android:text="Time"/>
 
-        <ImageButton
-            android:id="@+id/img_btn_next"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/next_FAB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
-            android:src="@drawable/ic_baseline_arrow_right_alt_24"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="40dp"
             android:backgroundTint="@color/colorPrimary"
+            android:onClick="search"
+            android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+            app:borderWidth="0dp"
+            app:fabCustomSize="64dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.958"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/time_edit_text"
-            android:padding="15dp"
-            android:background="@drawable/roundcorner"
-            />
+            app:tint="@color/white"
+            app:layout_constraintVertical_bias="1.0"
+            app:maxImageSize="40dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>

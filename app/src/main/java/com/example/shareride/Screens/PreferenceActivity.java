@@ -72,9 +72,6 @@ public class PreferenceActivity extends AppCompatActivity {
 
             addresses = geocoder.getFromLocation(destinationLocation.latitude, destinationLocation.longitude, 1);
             destinationLocationName = addresses.get(0).getLocality();
-
-            Log.d(TAG, "offerRide: SourceLocationName: "+sourceLocationName);
-            Log.d(TAG, "offerRide: destinationLocationName: "+destinationLocationName);
         } catch (Exception e) {
             Log.d(TAG, "offerRide: Exception: "+e.getLocalizedMessage());
         }

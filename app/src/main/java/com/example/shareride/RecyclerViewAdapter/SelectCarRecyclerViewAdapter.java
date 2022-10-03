@@ -1,11 +1,7 @@
 package com.example.shareride.RecyclerViewAdapter;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shareride.Model.Car;
 import com.example.shareride.R;
-import com.example.shareride.Screens.CarDetails;
-import com.example.shareride.Screens.MyAvailableRideAdapter;
-import com.example.shareride.Screens.ViewMyCars;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;

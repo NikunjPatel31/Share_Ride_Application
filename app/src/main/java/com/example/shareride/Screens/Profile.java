@@ -118,7 +118,7 @@ public class Profile extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.d(TAG, "onCancelled: Exception: "+databaseError);
             }
         });
     }
