@@ -1,6 +1,7 @@
 package com.example.shareride.RecyclerViewAdapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shareride.Model.MyAvailableRideData;
 import com.example.shareride.R;
+import com.example.shareride.Screens.RideDetail;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -49,7 +51,6 @@ public class MyAvailableRideAdapter extends RecyclerView.Adapter<MyAvailableRide
 
         holder.time.setText(ride.getOfferedRide().getTime());
         holder.date.setText(ride.getOfferedRide().getDate());
-        holder.seats.setText(""+ride.getOfferedRide().getSeats());
         holder.price.setText(ride.getOfferedRide().getCostPerSeats() + " ₹");
 
         LatLng sourceLatLng = ride.getOfferedRide().getSourceLocation();
@@ -75,35 +76,15 @@ public class MyAvailableRideAdapter extends RecyclerView.Adapter<MyAvailableRide
             Log.d(TAG, "onBindViewHolder: Exception: "+e.getLocalizedMessage());
         }
 
-//        holder.price.setText(ride.getOfferedRide().getCostPerSeats());
-
-        /*
-        convert the source location latitude and longitude to location name
-        holder.sourcelocation.setText(ride.getOfferedRide());
-        */
-
-        /*
-        convert the destination location latitude and longitude to location name
-        holder.destinationLocation.setText(myAvailableRide.getDestinationLocation());
-        */
-
-//        holder.time.setText(ride.getOfferedRide().getTime());
-//        //Log.d(TAG, "onBindViewHolder: Rating: "+myAvailableRide.getRating());
-//        holder.date.setText(ride.getOfferedRide().getDate());
-//        holder.seats.setText(ride.getOfferedRide().getSeats());
-
-        /*
-        set user profile picture
-        holder.profileimage.setImageResource(myAvailableRide.getProfileImage());
-        */
-
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //Toast.makeText(context,myAvailableRide.getOwnerName(),Toast.LENGTH_LONG).show();
-//            }
-//        });
-
+        holder.request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context.getApplicationContext(), RideDetail.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("Ride", list.get(holder.getAdapterPosition()));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -118,7 +99,6 @@ public class MyAvailableRideAdapter extends RecyclerView.Adapter<MyAvailableRide
         TextView destinationLocation;
         TextView time;
         TextView date;
-        TextView seats;
         AppCompatButton request;
 
 
@@ -129,7 +109,6 @@ public class MyAvailableRideAdapter extends RecyclerView.Adapter<MyAvailableRide
             destinationLocation=itemView.findViewById(R.id.destination_location_text_view);
             time=itemView.findViewById(R.id.time_value_text_view);
             date=itemView.findViewById(R.id.date_value_text_view);
-            seats=itemView.findViewById(R.id.seats_value_text_view);
             request=itemView.findViewById(R.id.request_btn);
         }
     }

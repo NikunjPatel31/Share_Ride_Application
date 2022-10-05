@@ -27,5 +27,6 @@
     <color name="colorExtraDarkGrey">#616161</color>
     <color name="colorIntroButton">#83BFF1</color>
     <color name="colorGradientEnd">#777CED</color>
-
+<!--    <color name="colorLightGrey">#D6D6D6</color>-->
+    <color name="colorLightGrey">#E9E9E9</color>
 </resources>
