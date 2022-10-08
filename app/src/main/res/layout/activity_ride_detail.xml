@@ -133,6 +133,7 @@
                 android:text="Seats: "/>
 
             <TextView
+                android:id="@+id/seats_value_text_view"
                 style="@style/offerRideFieldValueTextView"
                 app:layout_constraintStart_toEndOf="@id/seats_title_text_view"
                 app:layout_constraintTop_toBottomOf="@id/date_title_text_view"
@@ -141,11 +142,108 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
+        <TextView
+            android:id="@+id/rider_details_text_view"
+            style="@style/rideDetailsTitleTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ride_details_card_view"
+            android:text="Rider Details"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/rider_details_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rider_details_text_view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/rider_image_view"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/account"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/rider_image_view"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/rider_name_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="Nikunj Patel"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:id="@+id/age_title_text_view"
+                        android:text="Age : "
+                        style="@style/offerRideTitleTextView"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rider_name_text_view"/>
+
+                    <TextView
+                        android:id="@+id/age_value_text_view"
+                        style="@style/offerRideFieldValueTextView"
+                        android:text="22"
+                        app:layout_constraintStart_toEndOf="@id/age_title_text_view"
+                        app:layout_constraintTop_toBottomOf="@id/rider_name_text_view"/>
+
+                    <TextView
+                        android:id="@+id/city_title_text_view"
+                        style="@style/offerRideTitleTextView"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/age_title_text_view"
+                        android:text="City : "/>
+
+                    <TextView
+                        android:id="@+id/city_value_text_view"
+                        app:layout_constraintStart_toEndOf="@id/city_title_text_view"
+                        app:layout_constraintTop_toBottomOf="@id/age_title_text_view"
+                        style="@style/offerRideFieldValueTextView"
+                        android:text="Bhuj"/>
+
+                    <TextView
+                        android:id="@+id/gender_value_text_view"
+                        style="@style/offerRideFieldValueTextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rider_name_text_view"
+                        android:layout_marginEnd="15dp"
+                        android:text="Male"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:onClick="call"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        style="@style/Positive_button_style"
+                        android:text="Call"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/gender_value_text_view"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
     <TextView
         android:id="@+id/car_details_text_view"
         style="@style/rideDetailsTitleTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ride_details_card_view"
+        app:layout_constraintTop_toBottomOf="@+id/rider_details_card_view"
         android:text="Car Details"/>
 
         <com.google.android.material.card.MaterialCardView
@@ -255,13 +353,13 @@
 
                                         <TextView
                                             android:id="@+id/model_year_text_view"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
+                                            android:layout_width="45dp"
+                                            android:layout_height="28dp"
+                                            android:layout_marginTop="13dp"
                                             android:fontFamily="@font/poppins"
                                             android:text="2020"
                                             android:textColor="@color/black"
                                             android:textSize="20sp"
-                                            android:layout_marginTop="13dp"
                                             app:layout_constraintBottom_toBottomOf="parent"
                                             app:layout_constraintEnd_toEndOf="parent"
                                             app:layout_constraintStart_toStartOf="parent"
@@ -423,32 +521,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/preferences_title_text_view">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/text_view1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="•"
-                    android:textSize="28sp"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="10dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/text_view1"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="No Smoking"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="10dp"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/preferences_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"/>
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -470,52 +547,11 @@
             android:layout_margin="10dp"
             app:cardCornerRadius="10dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/passenger_profile_image_view"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/background"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-               <androidx.constraintlayout.widget.ConstraintLayout
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   app:layout_constraintStart_toEndOf="@id/passenger_profile_image_view"
-                   app:layout_constraintTop_toTopOf="parent"
-                   app:layout_constraintBottom_toBottomOf="parent"
-                   android:layout_marginStart="5dp">
-
-                   <TextView
-                       android:id="@+id/passenger_name_text_view"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:fontFamily="@font/poppins_medium"
-                       android:text="Nikunj Patel"
-                       android:textColor="@color/black"
-                       android:textSize="19sp"
-                       app:layout_constraintBottom_toTopOf="@+id/age_text_view"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toTopOf="parent" />
-
-                   <TextView
-                       android:id="@+id/age_text_view"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-
-                       android:fontFamily="@font/poppins_medium"
-                       android:text="Male"
-                       android:textSize="17sp"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintStart_toStartOf="parent" />
-
-               </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/passenger_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"/>
 
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

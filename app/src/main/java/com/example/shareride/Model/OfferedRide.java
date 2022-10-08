@@ -15,6 +15,7 @@ public class OfferedRide implements Parcelable {
     ArrayList<String> passengersIDList;
     ArrayList<String> preferencesList;
     String rideID;
+    String carID;
 
     public OfferedRide() {}
 
@@ -27,7 +28,8 @@ public class OfferedRide implements Parcelable {
                        String riderID,
                        ArrayList<String> passengersIDList,
                        ArrayList<String> preferencesList,
-                       String rideID) {
+                       String rideID,
+                       String carID) {
         this.sourceLocation = sourceLocation;
         this.destinationLocation = destinationLocation;
         this.costPerSeats = costPerSeats;
@@ -38,9 +40,12 @@ public class OfferedRide implements Parcelable {
         this.passengersIDList = passengersIDList;
         this.preferencesList = preferencesList;
         this.rideID = rideID;
+        this.carID = carID;
     }
 
     protected OfferedRide(Parcel in) {
+        sourceLocation = in.readParcelable(LatLng.class.getClassLoader());
+        destinationLocation = in.readParcelable(LatLng.class.getClassLoader());
         costPerSeats = in.readString();
         date = in.readString();
         time = in.readString();
@@ -49,6 +54,7 @@ public class OfferedRide implements Parcelable {
         passengersIDList = in.createStringArrayList();
         preferencesList = in.createStringArrayList();
         rideID = in.readString();
+        carID = in.readString();
     }
 
     public static final Creator<OfferedRide> CREATOR = new Creator<OfferedRide>() {
@@ -143,6 +149,15 @@ public class OfferedRide implements Parcelable {
         this.rideID = rideID;
     }
 
+    public String getCarID() {
+        return carID;
+    }
+
+    public void setCarID(String carID) {
+        this.carID = carID;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -150,7 +165,8 @@ public class OfferedRide implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeParcelable(sourceLocation, i);
+        parcel.writeParcelable(destinationLocation, i);
         parcel.writeString(costPerSeats);
         parcel.writeString(date);
         parcel.writeString(time);
@@ -159,5 +175,6 @@ public class OfferedRide implements Parcelable {
         parcel.writeStringList(passengersIDList);
         parcel.writeStringList(preferencesList);
         parcel.writeString(rideID);
+        parcel.writeString(carID);
     }
 }

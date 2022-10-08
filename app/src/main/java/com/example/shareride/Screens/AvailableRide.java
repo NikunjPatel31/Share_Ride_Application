@@ -128,7 +128,13 @@ public class AvailableRide extends AppCompatActivity {
                                 LatLng destinationLatLng = new LatLng(destinationLocationMap.get("latitude").doubleValue(), destinationLocationMap.get("longitude"));
                                 OfferedRide offeredRide = new OfferedRide();
                                 offeredRide.setRideID(rideID);
+                                if (sourceLatLng == null) {
+                                    Log.d(TAG, "onEvent: sourceLatLng is null");
+                                } else {
+                                    Log.d(TAG, "onEvent: it is not null");
+                                }
                                 offeredRide.setSourceLocation(sourceLatLng);
+                                Log.d(TAG, "onEvent: SourceLatLan value: "+sourceLatLng);
                                 offeredRide.setDestinationLocation(destinationLatLng);
                                 offeredRide.setCostPerSeats(rideCostPerSeat);
                                 offeredRide.setDate(rideDate);
@@ -137,11 +143,10 @@ public class AvailableRide extends AppCompatActivity {
                                 offeredRide.setRiderID(riderUID);
                                 offeredRide.setPassengersIDList(passengersIDList);
                                 offeredRide.setPreferencesList(preferencesList);
+                                offeredRide.setCarID(rideCarID);
 
                                 availableRideList.add(new MyAvailableRideData(offeredRide));
-                                Log.d(TAG, "onEvent: snapshot: "+snapshot.get("Date"));
                             }
-                            Log.d(TAG, "onEvent: size: "+availableRideList.size());
                             availableRideAdapter = new MyAvailableRideAdapter(availableRideList, getApplicationContext());
                             recyclerView.setAdapter(availableRideAdapter);
                         }

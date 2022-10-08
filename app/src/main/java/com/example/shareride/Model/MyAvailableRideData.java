@@ -8,6 +8,8 @@ public class MyAvailableRideData implements Parcelable {
     private OfferedRide offeredRide;
 //    private User rider;
 
+    public MyAvailableRideData() {}
+
     public MyAvailableRideData(OfferedRide offeredRide) {
         this.offeredRide = offeredRide;
 //        this.rider = rider;
