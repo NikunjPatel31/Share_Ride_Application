@@ -153,13 +153,13 @@ public class RideRequestRecyclerViewAdapter extends RecyclerView.Adapter<RideReq
                             }
                         });
 
-                Log.d(TAG, "onClick: RideID: "+ride.getRideID());
+                
                 ArrayList<String> ids = offeredRide[0].getPassengersIDList();
                 ids.add(ride.getPassengerID());
-                Log.d(TAG, "onClick: passenger List: "+offeredRide[0].getPassengersIDList());
+
                 db.collection("Offer Ride")
                         .document(ride.getRideID())
-                        .update("PassengerList",ids)
+                        .update("PassengerList",ids,"Seats", offeredRide[0].getSeats()-1)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -170,6 +170,28 @@ public class RideRequestRecyclerViewAdapter extends RecyclerView.Adapter<RideReq
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "onFailure: Exception: "+e.getLocalizedMessage());
+                            }
+                        });
+            }
+        });
+
+        holder.btnReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.collection("Ride Request")
+                        .document(ride.getRideRequestID())
+                        .delete()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                actionListener.onActionListener(holder.getAdapterPosition());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(context, "Error in rejecting", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "onFailure: Exception: "+e.getLocalizedMessage());
                             }
                         });

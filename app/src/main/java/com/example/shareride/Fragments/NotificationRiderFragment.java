@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -91,6 +92,8 @@ public class NotificationRiderFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_notification_rider, container, false);
         initializeComponents(view);
+        rideRequestRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
         rideRequestRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         RideRequestRecyclerViewAdapter.setActionListener(new RideRequestRecyclerViewAdapter.ActionListener() {
             @Override
