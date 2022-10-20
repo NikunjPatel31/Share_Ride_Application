@@ -3,6 +3,7 @@ package com.example.shareride.Fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,7 +22,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -98,7 +101,7 @@ public class NotificationRiderFragment extends Fragment {
         RideRequestRecyclerViewAdapter.setActionListener(new RideRequestRecyclerViewAdapter.ActionListener() {
             @Override
             public void onActionListener(int position) {
-                rideRequestList.remove(position);
+                rideRequestList.remove(position+1);
                 adapter.notifyItemRemoved(position);
             }
         });
@@ -115,27 +118,21 @@ public class NotificationRiderFragment extends Fragment {
         db.collection("Ride Request")
                 .whereEqualTo("RiderID", mAuth.getCurrentUser().getUid())
                 .whereEqualTo("Status", "Pending")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                RideRequest ride = new RideRequest();
-                                ride.setRideRequestID(document.getId());
-                                ride.setPassengerID(document.get("PassengerID").toString());
-                                ride.setStatus(document.get("Status").toString());
-                                ride.setRideID(document.get("RideID").toString());
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        for (QueryDocumentSnapshot document : value) {
+                            RideRequest ride = new RideRequest();
+                            ride.setRideRequestID(document.getId());
+                            ride.setPassengerID(document.get("PassengerID").toString());
+                            ride.setStatus(document.get("Status").toString());
+                            ride.setRideID(document.get("RideID").toString());
 
-                                rideRequestList.add(ride);
-                            }
-                            // setting recyclerview adapter
-                            adapter = new RideRequestRecyclerViewAdapter(rideRequestList, getContext());
-                            rideRequestRecyclerView.setAdapter(adapter);
-                        } else {
-                            // error
-                            Toast.makeText(getContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
+                            rideRequestList.add(ride);
                         }
+                        // setting recyclerview adapter
+                        adapter = new RideRequestRecyclerViewAdapter(rideRequestList, getContext());
+                        rideRequestRecyclerView.setAdapter(adapter);
                     }
                 });
     }
