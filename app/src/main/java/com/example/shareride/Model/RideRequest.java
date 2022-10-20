@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class RideRequest implements Parcelable {
+    String riderID;
     String rideRequestID;
     String passengerID;
     String status;
@@ -11,11 +12,12 @@ public class RideRequest implements Parcelable {
 
     public RideRequest() {}
 
-    public RideRequest(String rideRequestID, String passengerID, String status, String rideID) {
+    public RideRequest(String rideRequestID, String passengerID, String status, String rideID, String riderID) {
         this.rideRequestID = rideRequestID;
         this.passengerID = passengerID;
         this.status = status;
         this.rideID = rideID;
+        this.riderID = riderID;
     }
 
     protected RideRequest(Parcel in) {
@@ -23,6 +25,7 @@ public class RideRequest implements Parcelable {
         passengerID = in.readString();
         status = in.readString();
         rideID = in.readString();
+        riderID = in.readString();
     }
 
     public static final Creator<RideRequest> CREATOR = new Creator<RideRequest>() {
@@ -69,6 +72,14 @@ public class RideRequest implements Parcelable {
         this.rideID = rideID;
     }
 
+    public String getRiderID() {
+        return riderID;
+    }
+
+    public void setRiderID(String riderID) {
+        this.riderID = riderID;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -80,5 +91,6 @@ public class RideRequest implements Parcelable {
         parcel.writeString(passengerID);
         parcel.writeString(status);
         parcel.writeString(rideID);
+        parcel.writeString(riderID);
     }
 }

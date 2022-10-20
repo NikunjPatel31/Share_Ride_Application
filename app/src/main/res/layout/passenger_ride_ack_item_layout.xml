@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/name_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Name : "
+        android:textColor="@color/black"
+        android:fontFamily="@font/poppins_medium"
+        android:textSize="18sp"
+        android:layout_marginStart="10dp"/>
+
+    <TextView
+        android:id="@+id/rider_name_text_view"
+        app:layout_constraintStart_toEndOf="@id/name_title_text_view"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Nikunj Patel"
+        style="@style/offerRideFieldValueTextView"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/location_constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/name_title_text_view"
+        android:padding="10dp"
+        android:background="@drawable/location_text_view_background">
+
+        <TextView
+            android:id="@+id/source_location_text_view"
+            style="@style/offeredRideLocationTextView"
+            android:text="Ahmadabad"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/horizontal_line"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@color/colorGrey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/source_location_text_view"/>
+
+        <TextView
+            android:id="@+id/destination_location_text_view"
+            style="@style/offeredRideLocationTextView"
+            android:text="Mumbai"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/horizontal_line" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/date_title_text_view"
+        style="@style/offerRideTitleTextView"
+        android:text="Date :"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/location_constraint_layout"/>
+
+    <TextView
+        android:id="@+id/date_value_text_view"
+        style="@style/offerRideFieldValueTextView"
+        android:text="29-01-2019"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toEndOf="@id/date_title_text_view"
+        app:layout_constraintTop_toBottomOf="@id/location_constraint_layout"/>
+
+    <TextView
+        android:id="@+id/seats_title_text_view"
+        style="@style/offerRideTitleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/date_title_text_view"
+        android:text="Seats: "/>
+
+    <TextView
+        android:id="@+id/seats_value_text_view"
+        style="@style/offerRideFieldValueTextView"
+        app:layout_constraintStart_toEndOf="@id/seats_title_text_view"
+        app:layout_constraintTop_toBottomOf="@id/date_title_text_view"
+        android:text="3"/>
+
+    <TextView
+        android:id="@+id/cost_value_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/price_background_text_view"
+        android:paddingStart="8dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="8dp"
+        android:text="260 Rs"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/location_constraint_layout" />
+
+    <TextView
+        android:id="@+id/time_value_text_view"
+        style="@style/offerRideFieldValueTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cost_value_textView"
+        android:text="12:00 PM"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/time_title_text_view"
+        style="@style/offerRideTitleTextView"
+        app:layout_constraintTop_toBottomOf="@id/cost_value_textView"
+        app:layout_constraintEnd_toStartOf="@id/time_value_text_view"
+        android:text="Time: "
+        android:layout_marginTop="5dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seats_title_text_view"
+        style="@style/Cancel_button_style"
+        android:paddingHorizontal="40dp"
+        android:text="Cancel"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/seats_title_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Accepted"
+        android:textSize="16sp"
+        android:textColor="#52B67D"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/accepted_status_background"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
