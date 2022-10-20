@@ -98,6 +98,7 @@ public class AvailableRide extends AppCompatActivity {
                 .whereEqualTo("Source Location Name", sourceLocation.trim())
                 .whereEqualTo("Destination Location Name", destinationLocation.trim())
                 .whereEqualTo("Date", date)
+                .whereGreaterThan("Seats", 0)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {

@@ -153,7 +153,7 @@ public class RideRequestRecyclerViewAdapter extends RecyclerView.Adapter<RideReq
                             }
                         });
 
-                
+
                 ArrayList<String> ids = offeredRide[0].getPassengersIDList();
                 ids.add(ride.getPassengerID());
 
