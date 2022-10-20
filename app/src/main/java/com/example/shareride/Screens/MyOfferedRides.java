@@ -116,6 +116,7 @@ public class MyOfferedRides extends AppCompatActivity {
                                 offeredRide.setSeats(Integer.parseInt(documentSnapshot.get("Seats").toString()));
                                 offeredRide.setTime(documentSnapshot.get("Time").toString());
                                 offeredRide.setRiderID(documentSnapshot.get("RiderID").toString());
+                                offeredRide.setPassengersIDList((ArrayList<String>) documentSnapshot.get("PassengerList"));
 
                                 offeredRideList.add(offeredRide);
                             }

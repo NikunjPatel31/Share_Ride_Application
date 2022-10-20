@@ -2,13 +2,29 @@ package com.example.shareride.Fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.shareride.Model.RideRequest;
 import com.example.shareride.R;
+import com.example.shareride.RecyclerViewAdapter.RideRequestRecyclerViewAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +32,18 @@ import com.example.shareride.R;
  * create an instance of this fragment.
  */
 public class NotificationRiderFragment extends Fragment {
+
+    // component instances
+    RecyclerView rideRequestRecyclerView;
+
+    // firebase instances
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+    // local instance variables
+    ArrayList<RideRequest> rideRequestList = new ArrayList<>();
+    RideRequestRecyclerViewAdapter adapter = new RideRequestRecyclerViewAdapter(new ArrayList<RideRequest>(), getContext());
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +89,63 @@ public class NotificationRiderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification_rider, container, false);
+        View view = inflater.inflate(R.layout.fragment_notification_rider, container, false);
+        initializeComponents(view);
+        rideRequestRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        RideRequestRecyclerViewAdapter.setActionListener(new RideRequestRecyclerViewAdapter.ActionListener() {
+            @Override
+            public void onActionListener(int position) {
+                rideRequestList.remove(position);
+                adapter.notifyItemRemoved(position);
+            }
+        });
+        return view;
+    }
+
+    private void initializeComponents(View view) {
+        // this method will initialize all the components
+        rideRequestRecyclerView = view.findViewById(R.id.ride_request_recycler_view);
+    }
+
+    private void fetchRequest() {
+        // this method will fetch all request from firebase firestore
+        db.collection("Ride Request")
+                .whereEqualTo("RiderID", mAuth.getCurrentUser().getUid())
+                .whereEqualTo("Status", "Pending")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                RideRequest ride = new RideRequest();
+                                ride.setRideRequestID(document.getId());
+                                ride.setPassengerID(document.get("PassengerID").toString());
+                                ride.setStatus(document.get("Status").toString());
+                                ride.setRideID(document.get("RideID").toString());
+
+                                rideRequestList.add(ride);
+                            }
+                            // setting recyclerview adapter
+                            adapter = new RideRequestRecyclerViewAdapter(rideRequestList, getContext());
+                            rideRequestRecyclerView.setAdapter(adapter);
+                        } else {
+                            // error
+                            Toast.makeText(getContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchRequest();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        rideRequestList.clear();
     }
 }

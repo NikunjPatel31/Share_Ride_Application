@@ -1,0 +1,84 @@
+package com.example.shareride.Model;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class RideRequest implements Parcelable {
+    String rideRequestID;
+    String passengerID;
+    String status;
+    String rideID;
+
+    public RideRequest() {}
+
+    public RideRequest(String rideRequestID, String passengerID, String status, String rideID) {
+        this.rideRequestID = rideRequestID;
+        this.passengerID = passengerID;
+        this.status = status;
+        this.rideID = rideID;
+    }
+
+    protected RideRequest(Parcel in) {
+        rideRequestID = in.readString();
+        passengerID = in.readString();
+        status = in.readString();
+        rideID = in.readString();
+    }
+
+    public static final Creator<RideRequest> CREATOR = new Creator<RideRequest>() {
+        @Override
+        public RideRequest createFromParcel(Parcel in) {
+            return new RideRequest(in);
+        }
+
+        @Override
+        public RideRequest[] newArray(int size) {
+            return new RideRequest[size];
+        }
+    };
+
+    public String getRideRequestID() {
+        return rideRequestID;
+    }
+
+    public void setRideRequestID(String rideRequestID) {
+        this.rideRequestID = rideRequestID;
+    }
+
+    public String getPassengerID() {
+        return passengerID;
+    }
+
+    public void setPassengerID(String passengerID) {
+        this.passengerID = passengerID;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getRideID() {
+        return rideID;
+    }
+
+    public void setRideID(String rideID) {
+        this.rideID = rideID;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(rideRequestID);
+        parcel.writeString(passengerID);
+        parcel.writeString(status);
+        parcel.writeString(rideID);
+    }
+}

@@ -1,5 +1,6 @@
 package com.example.shareride.Screens;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,14 +12,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.shareride.Model.MyAvailableRideData;
 import com.example.shareride.Model.OfferedRide;
 import com.example.shareride.R;
 import com.example.shareride.RecyclerViewAdapter.MyAvailableRideAdapter;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,6 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class AvailableRide extends AppCompatActivity {
 
@@ -35,6 +42,7 @@ public class AvailableRide extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     // firebase instance
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference();
 
@@ -53,6 +61,15 @@ public class AvailableRide extends AppCompatActivity {
         fetchIntent();
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         searchResult(sourceLocation, destinationLocation, date, time);
+
+        MyAvailableRideAdapter.setOnRequestRideListener(new MyAvailableRideAdapter.RequestRideListener() {
+            @Override
+            public void onRequestForRide(MyAvailableRideData rideData) {
+                // request for the ride
+
+            }
+        });
+
     }
 
     private void initializeComponents() {
