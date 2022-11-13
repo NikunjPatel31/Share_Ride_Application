@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.shareride.Model.MyAvailableRideData;
 import com.example.shareride.Model.OfferedRide;
 import com.example.shareride.R;
 import com.example.shareride.RecyclerViewAdapter.OfferedRidesRecyclerViewAdapter;
@@ -49,6 +51,13 @@ public class MyOfferedRides extends AppCompatActivity {
             @Override
             public void onRideSelectListener(OfferedRide ride) {
                 // Write code to navigate from MyOfferedRide to RideInfo Activity
+                Intent intent = new Intent(getApplicationContext(), RideDetail.class);
+                intent.putExtra("Screen", "Rider");
+                MyAvailableRideData availableRideData = new MyAvailableRideData();
+                availableRideData.setOfferedRide(ride);
+                intent.putExtra("Ride", availableRideData);
+                Log.d(TAG, "onRideSelectListener: ride: "+ride.getRideID());
+                startActivity(intent);
             }
         });
 
@@ -117,7 +126,9 @@ public class MyOfferedRides extends AppCompatActivity {
                                 offeredRide.setTime(documentSnapshot.get("Time").toString());
                                 offeredRide.setRiderID(documentSnapshot.get("RiderID").toString());
                                 offeredRide.setPassengersIDList((ArrayList<String>) documentSnapshot.get("PassengerList"));
-
+                                offeredRide.setCarID(documentSnapshot.get("CarID").toString());
+                                offeredRide.setPreferencesList((ArrayList<String>) documentSnapshot.get("Preferences"));
+                                offeredRide.setStatus(documentSnapshot.get("Status").toString());
                                 offeredRideList.add(offeredRide);
                             }
                             adapter = new OfferedRidesRecyclerViewAdapter(offeredRideList, getApplicationContext());

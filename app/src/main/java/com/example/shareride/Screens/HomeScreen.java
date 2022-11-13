@@ -20,7 +20,7 @@ public class HomeScreen extends AppCompatActivity {
     private BottomAppBar bottomAppBar;
 
     public void click(View view) {
-        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+        startActivity(new Intent(getApplicationContext(), PaymentActivity.class));
     }
 
     public void add(View view) {

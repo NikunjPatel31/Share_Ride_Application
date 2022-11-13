@@ -140,6 +140,7 @@
         android:layout_marginTop="10dp"/>
 
     <TextView
+        android:id="@+id/accepted_status_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/seats_title_text_view"
@@ -151,5 +152,36 @@
         android:paddingVertical="5dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/accepted_status_background"/>
+
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/completed_status_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/seats_title_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Completed"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:textColor="#2C5EFF"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/completed_status_background"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:visibility="gone"
+        android:id="@+id/pay_now_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cancel_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginHorizontal="0dp"
+        android:background="@drawable/accepted_status_background"
+        android:text="Pay now" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

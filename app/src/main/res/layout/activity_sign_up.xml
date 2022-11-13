@@ -129,6 +129,13 @@
             app:layout_constraintTop_toBottomOf="@+id/city_edittext"
             app:layout_constraintVertical_bias="0.0" />
 
+        <EditText
+            android:id="@+id/upi_id_edit_text"
+            style="@style/EditTextStyle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pincode_edittext"
+            android:hint="UPI ID"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -141,7 +148,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pincode_edittext"
+            app:layout_constraintTop_toBottomOf="@+id/upi_id_edit_text"
             app:layout_constraintVertical_bias="0.42000002"
             android:onClick="apply"/>
 

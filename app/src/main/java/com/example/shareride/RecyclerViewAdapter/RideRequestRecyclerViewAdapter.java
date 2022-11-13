@@ -148,6 +148,38 @@ public class RideRequestRecyclerViewAdapter extends RecyclerView.Adapter<RideReq
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                // add the entry in the database for passenger
+                                db.collection("Offer Ride")
+                                        .document(ride.getRideID())
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    DocumentSnapshot document = task.getResult();
+
+                                                    ArrayList<String> passengerList = (ArrayList<String>) document.get("PassengerList");
+                                                    passengerList.add(ride.getPassengerID());
+
+                                                    db.collection("Offer Ride")
+                                                            .document(ride.getRideID())
+                                                            .update("PassengerList", passengerList)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    Log.d(TAG, "onComplete: Passenger added successfully into the passenger list");
+                                                                }
+                                                            }).addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    Log.d(TAG, "onFailure: Exception: "+e.getLocalizedMessage());
+                                                                }
+                                                            });
+                                                } else {
+                                                    Toast.makeText(context, "Error: "+task.getException(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
                                 Toast.makeText(context, "Error in accepting the request", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "onFailure: Exception: "+e.getLocalizedMessage());
                             }

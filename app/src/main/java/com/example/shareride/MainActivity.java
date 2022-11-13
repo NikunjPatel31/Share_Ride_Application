@@ -3,6 +3,7 @@ package com.example.shareride;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,6 +26,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.example.shareride.Screens.EmailVerification;
 import com.example.shareride.Screens.HomeScreen;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     // firebase instance
     private FirebaseAuth mAuth;
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     public void signup(View view) {
         if (valiidateFields()) {
@@ -47,6 +54,31 @@ public class MainActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful())
                             {
+                                databaseReference.child("Users")
+                                                .child(mAuth.getUid())
+                                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                SharedPreferences sharedPreferences = getSharedPreferences("UserSharedPreferences", MODE_PRIVATE);
+                                                                SharedPreferences.Editor myEdit = sharedPreferences.edit();
+
+                                                                myEdit.putString("First Name", snapshot.child("First_Name").getValue().toString());
+                                                                myEdit.putString("Last Name", snapshot.child("Last_Name").getValue().toString());
+                                                                myEdit.putString("Gender", snapshot.child("Gender").getValue().toString());
+                                                                myEdit.putString("DOB", snapshot.child("DOB").getValue().toString());
+                                                                myEdit.putString("Contact", snapshot.child("Contact").getValue().toString());
+                                                                myEdit.putString("City", snapshot.child("City").getValue().toString());
+                                                                myEdit.putString("Pincode", snapshot.child("Pincode").getValue().toString());
+                                                                myEdit.putString("UPI ID", snapshot.child("UPI_ID").getValue().toString());
+
+                                                                myEdit.apply();
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                                            }
+                                                        });
                                 Log.d(TAG, "onComplete: user successfully signed in.");
                                 Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

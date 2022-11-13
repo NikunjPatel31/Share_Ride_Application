@@ -88,6 +88,10 @@ public class OfferedRidesRecyclerViewAdapter extends RecyclerView.Adapter<Offere
         holder.tvCostPerSeats.setText(list.get(position).getCostPerSeats()+" Rs");
         holder.tvSeats.setText(""+list.get(position).getSeats());
 
+        if (list.get(position).getStatus().equals("Completed")) {
+            holder.cancelBtn.setVisibility(View.INVISIBLE);
+        }
+
         holder.cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

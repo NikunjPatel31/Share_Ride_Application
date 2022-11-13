@@ -92,7 +92,7 @@ public class Profile extends AppCompatActivity {
 
     public void setProfilePicture() {
         // this method will set the profile picture
-        String UID = mAuth.getUid();
+        String UID = mAuth.getCurrentUser().getUid();
         DatabaseReference mChildDB = databaseReference.child("Users").child(UID);
 
         mChildDB.addValueEventListener(new ValueEventListener() {
@@ -100,7 +100,7 @@ public class Profile extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //                String firstName = dataSnapshot.child("First Name").getValue().toString();
 //                String lastName = dataSnapshot.child("Last Name").getValue().toString();
-
+                Log.d(TAG, "onDataChange: profile_picture: "+dataSnapshot.toString());
                 String profilePicPath = dataSnapshot.child("Profile_picture").getValue().toString();
                 if(!profilePicPath.equals("null"))
                 {

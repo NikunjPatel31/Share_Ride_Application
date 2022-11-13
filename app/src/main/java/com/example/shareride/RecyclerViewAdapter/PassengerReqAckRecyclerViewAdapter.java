@@ -1,6 +1,10 @@
 package com.example.shareride.RecyclerViewAdapter;
 
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +20,7 @@ import com.example.shareride.Model.OfferedRide;
 import com.example.shareride.Model.RideRequest;
 import com.example.shareride.Model.User;
 import com.example.shareride.R;
+import com.example.shareride.Screens.PaymentActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,6 +43,12 @@ public class PassengerReqAckRecyclerViewAdapter extends RecyclerView.Adapter<Pas
     static final String TAG = "PassengerReqAck";
     static RideRequestRecyclerViewAdapter.ActionListener actionListener;
     Context context;
+    final int UPI_PAYMENT = 0;
+    static PaymentButtonListener paymentButtonListener;
+
+    public interface PaymentButtonListener{
+        void onPaymentClickListener(RideRequest ride, String amount);
+    }
 
     // firebase instance
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -45,6 +56,10 @@ public class PassengerReqAckRecyclerViewAdapter extends RecyclerView.Adapter<Pas
 
     public interface ActionListener {
         void onActionListener(int position);
+    }
+
+    public static void setPaymentButtonListener(PaymentButtonListener mListener) {
+        paymentButtonListener = mListener;
     }
 
     public static void setActionListener(RideRequestRecyclerViewAdapter.ActionListener mListener) {
@@ -69,7 +84,7 @@ public class PassengerReqAckRecyclerViewAdapter extends RecyclerView.Adapter<Pas
         RideRequest ride = list.get(position);
 
         final OfferedRide[] offeredRide = {null};
-
+        final String[] amount = {""};
         db.collection("Offer Ride")
                 .document(ride.getRideID())
                 .get()
@@ -80,29 +95,48 @@ public class PassengerReqAckRecyclerViewAdapter extends RecyclerView.Adapter<Pas
                             DocumentSnapshot documentSnapshot = task.getResult();
                             //offeredRide.setSourceLocation(documentSnapshot.get("Source Location"));
 
-                            HashMap<String, Double> map = (HashMap<String, Double>) documentSnapshot.get("Source Location");
-                            LatLng sourceLocation = new LatLng(map.get("latitude"), map.get("longitude"));
+                            try {
+                                Log.d(TAG, "onComplete: Ride: "+documentSnapshot);
+                                HashMap<String, Double> map = (HashMap<String, Double>) documentSnapshot.get("Source Location");
+                                LatLng sourceLocation = new LatLng(map.get("latitude"), map.get("longitude"));
+                                Log.d(TAG, "onComplete: source Location: "+sourceLocation);
 
-                            map = (HashMap<String, Double>) documentSnapshot.get("Destination Location");
-                            LatLng destinationLocation = new LatLng(map.get("latitude"), map.get("longitude"));
+                                map = (HashMap<String, Double>) documentSnapshot.get("Destination Location");
+                                LatLng destinationLocation = new LatLng(map.get("latitude"), map.get("longitude"));
+                                Log.d(TAG, "onComplete: Destination Location: "+destinationLocation);
 
-                            offeredRide[0] = new OfferedRide();
-                            offeredRide[0].setRideID(documentSnapshot.getId());
-                            offeredRide[0].setSourceLocation(sourceLocation);
-                            offeredRide[0].setDestinationLocation(destinationLocation);
-                            offeredRide[0].setDate(documentSnapshot.get("Date").toString());
-                            offeredRide[0].setCostPerSeats(documentSnapshot.get("Cost Per Seats").toString());
-                            offeredRide[0].setSeats(Integer.parseInt(documentSnapshot.get("Seats").toString()));
-                            offeredRide[0].setTime(documentSnapshot.get("Time").toString());
-                            offeredRide[0].setRiderID(documentSnapshot.get("RiderID").toString());
-                            offeredRide[0].setPassengersIDList((ArrayList<String>) documentSnapshot.get("PassengerList"));
-                            Log.d(TAG, "onComplete: Passenger List: "+offeredRide[0].getPassengersIDList());//offeredRide[0].getPassengersIDList());
-                            holder.tvSourceLocationName.setText(documentSnapshot.get("Source Location Name").toString());
-                            holder.tvDestinationLocationName.setText(documentSnapshot.get("Destination Location Name").toString());
-                            holder.tvCost.setText("₹ "+documentSnapshot.get("Cost Per Seats").toString());
-                            holder.tvDate.setText(documentSnapshot.get("Date").toString());
-                            holder.tvSeats.setText(documentSnapshot.get("Seats").toString());
-                            holder.tvTime.setText(documentSnapshot.get("Time").toString());
+                                offeredRide[0] = new OfferedRide();
+                                offeredRide[0].setRideID(documentSnapshot.getId());
+                                offeredRide[0].setSourceLocation(sourceLocation);
+                                offeredRide[0].setDestinationLocation(destinationLocation);
+                                offeredRide[0].setDate(documentSnapshot.get("Date").toString());
+                                offeredRide[0].setCostPerSeats(documentSnapshot.get("Cost Per Seats").toString());
+                                amount[0] = String.valueOf(documentSnapshot.get("Cost Per Seats"));
+                                offeredRide[0].setSeats(Integer.parseInt(documentSnapshot.get("Seats").toString()));
+                                offeredRide[0].setTime(documentSnapshot.get("Time").toString());
+                                offeredRide[0].setRiderID(documentSnapshot.get("RiderID").toString());
+                                offeredRide[0].setPassengersIDList((ArrayList<String>) documentSnapshot.get("PassengerList"));
+                                offeredRide[0].setStatus(documentSnapshot.get("Status").toString());
+
+                                if (documentSnapshot.get("Status").toString().equals("Completed")) {
+                                    holder.btnCancel.setVisibility(View.INVISIBLE);
+                                    holder.tvAcceptedStatus.setVisibility(View.INVISIBLE);
+                                    holder.tvCompletedStatus.setVisibility(View.VISIBLE);
+                                    holder.btnPay.setVisibility(View.VISIBLE);
+                                }
+
+                                // needed to design the textview to show ride completed status
+
+                                Log.d(TAG, "onComplete: Passenger List: "+offeredRide[0].getPassengersIDList());//offeredRide[0].getPassengersIDList());
+                                holder.tvSourceLocationName.setText(documentSnapshot.get("Source Location Name").toString());
+                                holder.tvDestinationLocationName.setText(documentSnapshot.get("Destination Location Name").toString());
+                                holder.tvCost.setText("₹ "+documentSnapshot.get("Cost Per Seats").toString());
+                                holder.tvDate.setText(documentSnapshot.get("Date").toString());
+                                holder.tvSeats.setText(documentSnapshot.get("Seats").toString());
+                                holder.tvTime.setText(documentSnapshot.get("Time").toString());
+                            } catch (Exception e) {
+                                Log.d(TAG, "onComplete: Exception: "+e.getLocalizedMessage());
+                            }
                         } else {
                             Log.d(TAG, "onComplete: Exception: "+task.getException());
                         }
@@ -172,6 +206,13 @@ public class PassengerReqAckRecyclerViewAdapter extends RecyclerView.Adapter<Pas
                 actionListener.onActionListener(holder.getAdapterPosition());
             }
         });
+
+        holder.btnPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                paymentButtonListener.onPaymentClickListener(ride, amount[0]);
+            }
+        });
     }
 
     @Override
@@ -187,9 +228,11 @@ public class PassengerReqAckRecyclerViewAdapter extends RecyclerView.Adapter<Pas
                 tvSeats,
                 tvCost,
                 tvRiderName,
-                tvTime;
+                tvTime,
+                tvAcceptedStatus,
+                tvCompletedStatus;
 
-        AppCompatButton btnCancel;
+        AppCompatButton btnCancel, btnPay;
         public PassengerReqAckViewHolder(@NonNull View itemView) {
             super(itemView);
             tvRiderName = itemView.findViewById(R.id.rider_name_text_view);
@@ -200,6 +243,9 @@ public class PassengerReqAckRecyclerViewAdapter extends RecyclerView.Adapter<Pas
             tvCost = itemView.findViewById(R.id.cost_value_textView);
             btnCancel = itemView.findViewById(R.id.cancel_button);
             tvTime = itemView.findViewById(R.id.time_value_text_view);
+            tvAcceptedStatus = itemView.findViewById(R.id.accepted_status_text_view);
+            tvCompletedStatus = itemView.findViewById(R.id.completed_status_text_view);
+            btnPay = itemView.findViewById(R.id.pay_now_button);
         }
     }
 }

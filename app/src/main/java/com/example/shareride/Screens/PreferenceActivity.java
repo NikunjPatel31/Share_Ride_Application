@@ -99,6 +99,8 @@ public class PreferenceActivity extends AppCompatActivity {
         map.put("Source Location Name", sourceLocationName);
         map.put("Destination Location Name", destinationLocationName);
         map.put("CarID",car.getCarId());
+        map.put("Status", "Pending");
+        map.put("PassengerList", new ArrayList<String>());
 
         db.collection("Offer Ride")
                 .add(map)

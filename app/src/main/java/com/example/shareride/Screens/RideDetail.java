@@ -2,6 +2,7 @@ package com.example.shareride.Screens;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,12 +16,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.shareride.Fragments.RideCompleteFragment;
 import com.example.shareride.Model.MyAvailableRideData;
 import com.example.shareride.Model.User;
 import com.example.shareride.R;
 import com.example.shareride.RecyclerViewAdapter.ShowPassengerRecyclerAdapter;
 import com.example.shareride.RecyclerViewAdapter.ShowPreferencesRecyclerAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -64,6 +70,8 @@ public class RideDetail extends AppCompatActivity {
     private RecyclerView preferenceRecyclerView;
     private RecyclerView passengerRecyclerView;
 
+    private AppCompatButton btnRideComplete;
+
     // firebase instance
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -79,6 +87,28 @@ public class RideDetail extends AppCompatActivity {
     private ShowPreferencesRecyclerAdapter preferencesRecyclerAdapter;
     private ShowPassengerRecyclerAdapter passengerRecyclerAdapter;
 
+    public void rideComplete(View view) {
+        // set ride status to completed
+        db.collection("Offer Ride")
+                .document(ride.getOfferedRide().getRideID())
+                .update("Status", "Completed")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ride completed
+                        // we can write a function to write status to completed in ride request
+                        Log.d(TAG, "onComplete: Ride completed successfully and status is also update to completed.");
+                        RideCompleteFragment.display(getSupportFragmentManager());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(RideDetail.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "onFailure: Exception: "+e.getLocalizedMessage());
+                    }
+                });
+    }
+
     public void call(View view) {
 
         Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -92,6 +122,9 @@ public class RideDetail extends AppCompatActivity {
         setContentView(R.layout.activity_ride_detail);
         initializeComponents();
         try {
+            if (getIntent().getStringExtra("Screen").equals("Rider")) {
+                btnRideComplete.setVisibility(View.VISIBLE);
+            }
             ride = getIntent().getExtras().getParcelable("Ride");
             fetchData();
             populateRideDetails();
@@ -126,6 +159,7 @@ public class RideDetail extends AppCompatActivity {
         tvCarModel = findViewById(R.id.model_year_text_view);
         preferenceRecyclerView = findViewById(R.id.preferences_recycler_view);
         passengerRecyclerView = findViewById(R.id.passenger_recycler_view);
+        btnRideComplete = findViewById(R.id.ride_complete_btn);
     }
 
     private void fetchData() {
@@ -212,11 +246,14 @@ public class RideDetail extends AppCompatActivity {
                             }
                         });
             }
+        } else {
+            Toast.makeText(this, "Ride details is not available", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void populateRideDetails() {
         // this method will populate only ride details
+        Log.d(TAG, "populateRideDetails: cost: "+ride.getOfferedRide().getCostPerSeats());
         tvCostPerSeats.setText(ride.getOfferedRide().getCostPerSeats() + " ₹");
         tvRideDate.setText(ride.getOfferedRide().getDate());
         tvRideTime.setText(ride.getOfferedRide().getTime());

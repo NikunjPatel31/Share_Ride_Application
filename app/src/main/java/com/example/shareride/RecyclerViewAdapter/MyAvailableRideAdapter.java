@@ -136,6 +136,7 @@ public class MyAvailableRideAdapter extends RecyclerView.Adapter<MyAvailableRide
                 Intent intent = new Intent(context.getApplicationContext(), RideDetail.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("Ride", list.get(holder.getAdapterPosition()));
+                intent.putExtra("Screen", "Search");
                 context.startActivity(intent);
             }
         });

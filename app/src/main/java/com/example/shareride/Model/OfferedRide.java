@@ -16,6 +16,7 @@ public class OfferedRide implements Parcelable {
     ArrayList<String> preferencesList;
     String rideID;
     String carID;
+    String status;
 
     public OfferedRide() {}
 
@@ -29,7 +30,8 @@ public class OfferedRide implements Parcelable {
                        ArrayList<String> passengersIDList,
                        ArrayList<String> preferencesList,
                        String rideID,
-                       String carID) {
+                       String carID,
+                       String status) {
         this.sourceLocation = sourceLocation;
         this.destinationLocation = destinationLocation;
         this.costPerSeats = costPerSeats;
@@ -41,6 +43,7 @@ public class OfferedRide implements Parcelable {
         this.preferencesList = preferencesList;
         this.rideID = rideID;
         this.carID = carID;
+        this.status = status;
     }
 
     protected OfferedRide(Parcel in) {
@@ -55,6 +58,7 @@ public class OfferedRide implements Parcelable {
         preferencesList = in.createStringArrayList();
         rideID = in.readString();
         carID = in.readString();
+        status = in.readString();
     }
 
     public static final Creator<OfferedRide> CREATOR = new Creator<OfferedRide>() {
@@ -157,6 +161,13 @@ public class OfferedRide implements Parcelable {
         this.carID = carID;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     @Override
     public int describeContents() {
@@ -176,5 +187,6 @@ public class OfferedRide implements Parcelable {
         parcel.writeStringList(preferencesList);
         parcel.writeString(rideID);
         parcel.writeString(carID);
+        parcel.writeString(status);
     }
 }

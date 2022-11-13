@@ -537,6 +537,7 @@
             android:text="Passenger List : "/>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/passenger_list_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -554,5 +555,24 @@
                 android:overScrollMode="never"/>
 
         </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:onClick="rideComplete"
+            android:id="@+id/ride_complete_btn"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passenger_list_card_view"
+            android:text="Ride Completed"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ride_completed_btn_background"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

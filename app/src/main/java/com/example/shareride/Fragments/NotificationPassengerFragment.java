@@ -1,9 +1,15 @@
 package com.example.shareride.Fragments;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_APPEND;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -14,14 +20,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.shareride.Model.RideRequest;
 import com.example.shareride.R;
 import com.example.shareride.RecyclerViewAdapter.PassengerReqAckRecyclerViewAdapter;
 import com.example.shareride.RecyclerViewAdapter.RideRequestRecyclerViewAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -47,6 +57,7 @@ public class NotificationPassengerFragment extends Fragment {
     // local instance variable
     ArrayList<RideRequest> rideRequestList = new ArrayList<>();
     PassengerReqAckRecyclerViewAdapter adapter = new PassengerReqAckRecyclerViewAdapter(new ArrayList<>(), getContext());
+    final int UPI_PAYMENT = 0;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,6 +97,58 @@ public class NotificationPassengerFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        PassengerReqAckRecyclerViewAdapter.setPaymentButtonListener(new PassengerReqAckRecyclerViewAdapter.PaymentButtonListener() {
+            @Override
+            public void onPaymentClickListener(RideRequest ride, String amount) {
+
+                SharedPreferences sh = getContext().getSharedPreferences("UserSharedPreferences", Context.MODE_PRIVATE);
+
+                String name = sh.getString("First Name", "") + " " + sh.getString("Last Name", "");//"Nikunj";
+                //"vaghasiyakeyur981@oksbi";
+
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child("Users").child(ride.getRiderID())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String name = snapshot.child("First_Name").getValue().toString() + " " + snapshot.child("Last_Name").getValue().toString();
+                                String upiId = snapshot.child("UPI_ID").getValue().toString();
+
+                                Log.d(TAG, "onPaymentClickListener: Name: "+name);
+                                Log.d(TAG, "onPaymentClickListener: upiId: "+upiId);
+                                Log.d(TAG, "onPaymentClickListener: amount: "+amount);
+                                Uri uri = Uri.parse("upi://pay").buildUpon()
+                                        .appendQueryParameter("pa", upiId)
+                                        .appendQueryParameter("pn", name)
+                                        //.appendQueryParameter("mc", "")
+                                        //.appendQueryParameter("tid", "02125412")
+                                        //.appendQueryParameter("tr", "25584584")
+                                        .appendQueryParameter("am", amount)
+                                        .appendQueryParameter("cu", "INR")
+                                        //.appendQueryParameter("refUrl", "blueapp")
+                                        .build();
+
+                                Intent upiPayIntent = new Intent(Intent.ACTION_VIEW);
+                                upiPayIntent.setData(uri);
+
+                                Intent chooser = Intent.createChooser(upiPayIntent, "Pay with");
+                                // check if intent resolves
+                                if(null != chooser.resolveActivity(getContext().getPackageManager())) {
+                                    startActivityForResult(chooser, UPI_PAYMENT);
+                                } else {
+                                    //Toast.makeText(getContext(),"No UPI app found, please install one to continue",Toast.LENGTH_SHORT).show();
+                                    Log.d(TAG, "onDataChange: No UPI app found, please install one to continue");
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+            }
+        });
     }
 
     @Override
@@ -143,12 +206,16 @@ public class NotificationPassengerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Toast.makeText(getContext(), "onResume", Toast.LENGTH_SHORT).show();
+        rideRequestList.clear();
         fetchDetails();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
+        Toast.makeText(getContext(), "onStop", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onStop: we are inside the onStop");
         rideRequestList.clear();
     }
 }

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,7 +49,7 @@ public class SignUp extends AppCompatActivity {
     private TextView tvGender;
     private Spinner spinnerGender;
     private CircleImageView cirImgViewProfilePic;
-    private EditText etFirstName, etLastName, etYearOfBirth, etContact, etCity, etPincode;
+    private EditText etFirstName, etLastName, etYearOfBirth, etContact, etCity, etPincode, etUPIID;
     private AlertDialog.Builder emailNotVerifiedBuilder;
     private AlertDialog emailVerifyAlertDialog;
 
@@ -59,7 +60,7 @@ public class SignUp extends AppCompatActivity {
     private static final String TAG = "SignUp";
     private int GALLERY_REQUEST_CODE = 1, READ_EXTERNAL_STORAGE_REQUSET_CODE = 2;
     ActivityResultLauncher<String> mGetContent;
-    String firstName, lastName, genderVal, yearOfBirth, contact, city, pincode;
+    String firstName, lastName, genderVal, yearOfBirth, contact, city, pincode, upiId;
     private Boolean userCreated = false;
 
     // Firebase instance
@@ -131,6 +132,7 @@ public class SignUp extends AppCompatActivity {
         etContact = findViewById(R.id.contact_edittext);
         etCity = findViewById(R.id.city_edittext);
         etPincode = findViewById(R.id.pincode_edittext);
+        etUPIID = findViewById(R.id.upi_id_edit_text);
     }
 
     private void initializeFirebaseInstance() {
@@ -181,13 +183,15 @@ public class SignUp extends AppCompatActivity {
          contact = etContact.getText().toString();
          city = etCity.getText().toString();
          pincode = etPincode.getText().toString();
+         upiId = etUPIID.getText().toString();
 
          if (!(TextUtils.isEmpty(firstName) &&
                  TextUtils.isEmpty(lastName) &&
                  TextUtils.isEmpty(yearOfBirth) &&
                  TextUtils.isEmpty(contact) &&
                  TextUtils.isEmpty(city) &&
-                 TextUtils.isEmpty(pincode))) {
+                 TextUtils.isEmpty(pincode) &&
+                 TextUtils.isEmpty(upiId))) {
              // all the required fields are not empty
              return true;
          } else {
@@ -253,9 +257,21 @@ public class SignUp extends AppCompatActivity {
         databaseReference.child("Contact").setValue(contact);
         databaseReference.child("City").setValue(city);
         databaseReference.child("Pincode").setValue(pincode);
+        databaseReference.child("UPI_ID").setValue(upiId);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("UserSharedPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
 
+        myEdit.putString("First Name", firstName);
+        myEdit.putString("Last Name", lastName);
+        myEdit.putString("Gender", spinnerGender.getSelectedItem().toString());
+        myEdit.putString("DOB", yearOfBirth);
+        myEdit.putString("Contact", contact);
+        myEdit.putString("City", city);
+        myEdit.putString("Pincode", pincode);
+        myEdit.putString("UPI ID", upiId);
 
+        myEdit.commit();
     }
 
     private boolean isEmailVerified() {
