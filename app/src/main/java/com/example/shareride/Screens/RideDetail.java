@@ -97,6 +97,7 @@ public class RideDetail extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         // ride completed
                         // we can write a function to write status to completed in ride request
+
                         Log.d(TAG, "onComplete: Ride completed successfully and status is also update to completed.");
                         RideCompleteFragment.display(getSupportFragmentManager());
                     }
