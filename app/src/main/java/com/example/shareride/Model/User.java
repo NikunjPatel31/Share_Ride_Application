@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class User implements Parcelable {
-    String userID, UPI_ID;
+    String userID, UPI_ID, email;
     String firstName, lastName, city, contact, DOB, gender, pincode, profilePic;
 
     public User() {}
@@ -18,7 +18,8 @@ public class User implements Parcelable {
                 String gender,
                 String pincode,
                 String profilePic,
-                String UPI_ID) {
+                String UPI_ID,
+                String email) {
         this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -29,6 +30,7 @@ public class User implements Parcelable {
         this.pincode = pincode;
         this.profilePic = profilePic;
         this.UPI_ID = UPI_ID;
+        this.email = email;
     }
 
     protected User(Parcel in) {
@@ -42,6 +44,7 @@ public class User implements Parcelable {
         pincode = in.readString();
         profilePic = in.readString();
         UPI_ID = in.readString();
+        email = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -136,6 +139,14 @@ public class User implements Parcelable {
         this.profilePic = profilePic;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -153,5 +164,6 @@ public class User implements Parcelable {
         parcel.writeString(pincode);
         parcel.writeString(profilePic);
         parcel.writeString(UPI_ID);
+        parcel.writeString(email);
     }
 }

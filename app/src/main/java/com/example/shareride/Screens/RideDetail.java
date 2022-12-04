@@ -1,5 +1,17 @@
 package com.example.shareride.Screens;
 
+import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -7,23 +19,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
-import android.net.Uri;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.shareride.Fragments.RideCompleteFragment;
 import com.example.shareride.Model.MyAvailableRideData;
 import com.example.shareride.Model.User;
 import com.example.shareride.R;
 import com.example.shareride.RecyclerViewAdapter.ShowPassengerRecyclerAdapter;
 import com.example.shareride.RecyclerViewAdapter.ShowPreferencesRecyclerAdapter;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -37,9 +39,19 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -100,6 +112,7 @@ public class RideDetail extends AppCompatActivity {
 
                         Log.d(TAG, "onComplete: Ride completed successfully and status is also update to completed.");
                         RideCompleteFragment.display(getSupportFragmentManager());
+                        sendEmail();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -108,6 +121,110 @@ public class RideDetail extends AppCompatActivity {
                         Log.d(TAG, "onFailure: Exception: "+e.getLocalizedMessage());
                     }
                 });
+    }
+
+    private void sendEmail() {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        String stringSenderEmail = "shareride14931@gmail.com";
+        //Windows computer - ygbbvwuguzhgyyij
+        String stringPasswordSenderEmail = "ygbbvwuguzhgyyij";
+
+        // Value hard coded
+        ArrayList<String> receiverEmail = new ArrayList<>();
+        String offerride = rider.getFirstName() + " " +rider.getLastName();
+        ArrayList<String> passengers = new ArrayList<>();
+
+        for (User user : userList) {
+            passengers.add(user.getFirstName()+ " " +user.getLastName());
+            receiverEmail.add(user.getEmail());
+        }
+        receiverEmail.add(rider.getEmail());
+
+        String source = "";
+        String destination = "";
+        LatLng sourceLatLng = ride.getOfferedRide().getSourceLocation();
+        LatLng destinationLatLng = ride.getOfferedRide().getDestinationLocation();
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+
+        try {
+            List<Address> addresses = geocoder.getFromLocation(sourceLatLng.latitude, sourceLatLng.longitude,1);
+            String address = addresses.get(0).getSubLocality();
+            String cityName = addresses.get(0).getLocality();
+            String stateName = addresses.get(0).getAdminArea();
+
+            source = address+", "+cityName+", "+stateName;
+//            holder.sourcelocation.setText(address+", "+cityName+", "+stateName);
+
+            addresses = geocoder.getFromLocation(destinationLatLng.latitude, destinationLatLng.longitude, 1);
+
+            address = addresses.get(0).getSubLocality();
+            cityName = addresses.get(0).getLocality();
+            stateName = addresses.get(0).getAdminArea();
+            Log.d(TAG, "onBindViewHolder: Address: "+address+", "+cityName+", "+stateName);
+
+            destination = address+", "+cityName+", "+stateName;
+//            holder.destinationLocation.setText(address+", "+cityName+", "+stateName);
+        } catch (Exception e) {
+            Log.d(TAG, "onBindViewHolder: Exception: "+e.getLocalizedMessage());
+        }
+
+        Date date = new Date();
+        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+        String Rdate = dateFormat.format(date);
+        String cost = ride.getOfferedRide().getCostPerSeats();
+        String payment = "Success";
+        String payid = "W45THbncdj";
+
+        String body = " Hello Users," +
+                "\n We are delighted and grateful that you have chosen to utilise share ride." +
+                "\n\n ************Ride Details************             " +
+                "\n\n Offered Ride By : " + offerride +
+                "\n Rider : " + passengers +
+                "\n Source : " + source +
+                "\n Destination : " + destination +
+                "\n Date : " + Rdate +
+                "\n Cost per person: " + cost +
+                "\n Payment : " + payment +
+                "\n Payment reference : " + payid +
+                "\n\n  If you have any additional questions. Email:shareride14931@gmail.com" +
+                "\n We look forward to assisting you along the road." +
+                "\n Thank you";
+
+
+
+        String stringHost = "smtp.gmail.com";
+
+        Properties properties = new Properties();
+
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", stringHost);
+        properties.put("mail.smtp.port", "587"); //465
+
+        Session session = Session.getInstance(properties,
+                new javax.mail.Authenticator(){
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(stringSenderEmail, stringPasswordSenderEmail);
+                    }
+                });
+        try {
+            Message message = new MimeMessage(session);
+//            message.setFrom(new InternetAddress(stringSenderEmail));
+            for (String email : receiverEmail) {
+                message.addRecipient(Message.RecipientType.CC, new InternetAddress(email));
+            }
+            message.setSubject(" Ride Details ");
+            message.setText(body);
+            Transport.send(message);
+            Toast.makeText(getApplicationContext(), "Email Send Successfully", Toast.LENGTH_LONG).show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Email not send", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void call(View view) {
@@ -180,7 +297,7 @@ public class RideDetail extends AppCompatActivity {
                     rider.setCity(snapshot.child("City").getValue().toString());
                     rider.setContact(snapshot.child("Contact").getValue().toString());
                     rider.setProfilePic(snapshot.child("Profile_picture").getValue().toString());
-
+                    rider.setEmail(snapshot.child("Email").getValue().toString());
                     tvRiderName.setText(snapshot.child("First_Name").getValue().toString()
                             +" "
                             +snapshot.child("Last_Name").getValue().toString());
@@ -234,6 +351,7 @@ public class RideDetail extends AppCompatActivity {
                                 user.setPincode(snapshot.child("Pincode").getValue().toString());
                                 user.setProfilePic(snapshot.child("Profile_picture").getValue().toString());
                                 user.setUserID(snapshot.getKey());
+                                user.setEmail(snapshot.child("Email").getValue().toString());
 
                                 userList.add(user);
                                 passengerRecyclerView.setAdapter(passengerRecyclerAdapter);

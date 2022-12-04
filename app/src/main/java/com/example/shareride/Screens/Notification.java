@@ -6,13 +6,15 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.shareride.PageAdapter.MyPageAdapter;
 import com.example.shareride.R;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.razorpay.PaymentResultListener;
 
-public class Notification extends AppCompatActivity {
+public class Notification extends AppCompatActivity implements PaymentResultListener {
 
     // components
     private ViewPager viewPager;
@@ -66,5 +68,17 @@ public class Notification extends AppCompatActivity {
             }
         });
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+    }
+
+    @Override
+    public void onPaymentSuccess(String s) {
+        Toast.makeText(getApplicationContext(), "Payment successful", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onPaymentSuccess: "+s);
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+        Toast.makeText(getApplicationContext(), "Error in payment", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onPaymentError: "+s);
     }
 }

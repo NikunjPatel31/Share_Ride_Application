@@ -258,6 +258,7 @@ public class SignUp extends AppCompatActivity {
         databaseReference.child("City").setValue(city);
         databaseReference.child("Pincode").setValue(pincode);
         databaseReference.child("UPI_ID").setValue(upiId);
+        databaseReference.child("Email").setValue(mAuth.getCurrentUser().getEmail());
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserSharedPreferences", MODE_PRIVATE);
         SharedPreferences.Editor myEdit = sharedPreferences.edit();

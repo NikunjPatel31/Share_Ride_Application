@@ -3,6 +3,7 @@ package com.example.shareride.Fragments;
 import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_APPEND;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,6 +38,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -58,6 +63,7 @@ public class NotificationPassengerFragment extends Fragment {
     ArrayList<RideRequest> rideRequestList = new ArrayList<>();
     PassengerReqAckRecyclerViewAdapter adapter = new PassengerReqAckRecyclerViewAdapter(new ArrayList<>(), getContext());
     final int UPI_PAYMENT = 0;
+    private static final String TAG = NotificationPassengerFragment.class.getSimpleName();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -104,8 +110,9 @@ public class NotificationPassengerFragment extends Fragment {
 
                 SharedPreferences sh = getContext().getSharedPreferences("UserSharedPreferences", Context.MODE_PRIVATE);
 
-                String name = sh.getString("First Name", "") + " " + sh.getString("Last Name", "");//"Nikunj";
+                String riderName = sh.getString("First Name", "") + " " + sh.getString("Last Name", "");//"Nikunj";
                 //"vaghasiyakeyur981@oksbi";
+                String contact = sh.getString("Contact", "9484553118");
 
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                 databaseReference.child("Users").child(ride.getRiderID())
@@ -118,6 +125,9 @@ public class NotificationPassengerFragment extends Fragment {
                                 Log.d(TAG, "onPaymentClickListener: Name: "+name);
                                 Log.d(TAG, "onPaymentClickListener: upiId: "+upiId);
                                 Log.d(TAG, "onPaymentClickListener: amount: "+amount);
+
+//                                startPayment(name, Integer.parseInt(amount), contact);
+
                                 Uri uri = Uri.parse("upi://pay").buildUpon()
                                         .appendQueryParameter("pa", upiId)
                                         .appendQueryParameter("pn", name)
@@ -151,11 +161,47 @@ public class NotificationPassengerFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void startPayment(String riderName, int amount, String contact) {
+        Checkout.preload(getContext());
+        Checkout checkout = new Checkout();
+        checkout.setKeyID("rzp_test_R9K3FPDkkrzIFG");
+        /**
+         * Instantiate Checkout
+         */
 
-        Log.d(TAG, "onActivityResult: response: "+data.getStringExtra("response"));
+        /**
+         * Set your logo here
+         */
+
+        /**
+         * Reference to current activity
+         */
+
+        /**
+         * Pass your payment options to the Razorpay Checkout as a JSONObject
+         */
+        try {
+            JSONObject options = new JSONObject();
+
+            options.put("name", riderName);
+            options.put("description", "Reference No. #123456");
+            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.jpg");
+//            options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
+            options.put("theme.color", "#3399cc");
+            options.put("currency", "INR");
+            options.put("amount", amount * 100);//pass amount in currency subunits
+            options.put("prefill.email", "gaurav.kumar@example.com");
+            options.put("prefill.contact", contact);
+            JSONObject retryObj = new JSONObject();
+            retryObj.put("enabled", true);
+            retryObj.put("max_count", 4);
+//            options.put("retry", retryObj);
+
+            checkout.open((Activity) getContext(), options);
+
+        } catch(Exception e) {
+            Log.e(TAG, "Error in starting Razorpay Checkout", e);
+        }
     }
 
     @Override

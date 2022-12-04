@@ -95,6 +95,7 @@ public class MyOfferedRides extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        offeredRideList.clear();
         getRides();
     }
 
