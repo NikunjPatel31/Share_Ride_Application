@@ -176,4 +176,8 @@
         <item name="android:windowExitAnimation">@anim/full_screen_dialog_close</item>
     </style>
 
+    <style name="ContentLoadingProgress">
+        <item name="colorAccent">#52B67D</item>
+    </style>
+
 </resources>

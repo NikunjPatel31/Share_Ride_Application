@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -236,12 +237,21 @@ public class EditProfile extends AppCompatActivity {
                 .child("Users")
                 .child(UID);
 
+        databaseReference.child("First_Name").setValue(firstName);
+        databaseReference.child("Last_Name").setValue(lastName);
+        databaseReference.child("Gender").setValue(genderVal);
+        databaseReference.child("DOB").setValue(yearOfBirth);
+        databaseReference.child("Contact").setValue(contact);
+        databaseReference.child("City").setValue(city);
+        databaseReference.child("Pincode").setValue(pincode);
+
         if (uploadUri != null) {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference()
                     .child("Profile_picture").
                     child(UID);
 
-            storageReference.putFile(uploadUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            storageReference.putFile(uploadUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Task<Uri> task = taskSnapshot.getMetadata().
@@ -255,6 +265,8 @@ public class EditProfile extends AppCompatActivity {
                             Log.d(TAG, "onSuccess: Profile picture uri: "+path);
 
                             databaseReference.child("Profile_picture").setValue(path);
+                            finish();
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -272,13 +284,5 @@ public class EditProfile extends AppCompatActivity {
         } else {
             databaseReference.child("Profile_picture").setValue("null");
         }
-
-        databaseReference.child("First_Name").setValue(firstName);
-        databaseReference.child("Last_Name").setValue(lastName);
-        databaseReference.child("Gender").setValue(genderVal);
-        databaseReference.child("DOB").setValue(yearOfBirth);
-        databaseReference.child("Contact").setValue(contact);
-        databaseReference.child("City").setValue(city);
-        databaseReference.child("Pincode").setValue(pincode);
     }
 }

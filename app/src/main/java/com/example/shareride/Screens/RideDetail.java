@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -83,6 +84,7 @@ public class RideDetail extends AppCompatActivity {
     private RecyclerView passengerRecyclerView;
 
     private AppCompatButton btnRideComplete;
+    private ContentLoadingProgressBar progressBar;
 
     // firebase instance
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -101,6 +103,8 @@ public class RideDetail extends AppCompatActivity {
 
     public void rideComplete(View view) {
         // set ride status to completed
+        progressBar.setVisibility(View.VISIBLE);
+        btnRideComplete.setVisibility(View.INVISIBLE);
         db.collection("Offer Ride")
                 .document(ride.getOfferedRide().getRideID())
                 .update("Status", "Completed")
@@ -219,10 +223,14 @@ public class RideDetail extends AppCompatActivity {
             message.setSubject(" Ride Details ");
             message.setText(body);
             Transport.send(message);
+            progressBar.setVisibility(View.INVISIBLE);
+            btnRideComplete.setVisibility(View.VISIBLE);
             Toast.makeText(getApplicationContext(), "Email Send Successfully", Toast.LENGTH_LONG).show();
 
         } catch (Exception e) {
             e.printStackTrace();
+            progressBar.setVisibility(View.INVISIBLE);
+            btnRideComplete.setVisibility(View.VISIBLE);
             Toast.makeText(getApplicationContext(), "Email not send", Toast.LENGTH_LONG).show();
         }
     }
@@ -278,6 +286,7 @@ public class RideDetail extends AppCompatActivity {
         preferenceRecyclerView = findViewById(R.id.preferences_recycler_view);
         passengerRecyclerView = findViewById(R.id.passenger_recycler_view);
         btnRideComplete = findViewById(R.id.ride_complete_btn);
+        progressBar = findViewById(R.id.progress_bar);
     }
 
     private void fetchData() {

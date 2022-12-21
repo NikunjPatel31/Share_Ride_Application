@@ -45,11 +45,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link NotificationPassengerFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class NotificationPassengerFragment extends Fragment {
 
     // Components
@@ -78,15 +73,6 @@ public class NotificationPassengerFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NotificationPassengerFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static NotificationPassengerFragment newInstance(String param1, String param2) {
         NotificationPassengerFragment fragment = new NotificationPassengerFragment();
         Bundle args = new Bundle();
@@ -110,8 +96,8 @@ public class NotificationPassengerFragment extends Fragment {
 
                 SharedPreferences sh = getContext().getSharedPreferences("UserSharedPreferences", Context.MODE_PRIVATE);
 
-                String riderName = sh.getString("First Name", "") + " " + sh.getString("Last Name", "");//"Nikunj";
-                //"vaghasiyakeyur981@oksbi";
+//                String riderName = sh.getString("First Name", "") + " " + sh.getString("Last Name", "");//"Nikunj";
+//                //"vaghasiyakeyur981@oksbi";
                 String contact = sh.getString("Contact", "9484553118");
 
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -259,7 +245,6 @@ public class NotificationPassengerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(getContext(), "onResume", Toast.LENGTH_SHORT).show();
         rideRequestList.clear();
         fetchDetails();
     }

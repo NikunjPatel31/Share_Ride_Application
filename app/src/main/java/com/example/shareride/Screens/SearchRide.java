@@ -119,7 +119,7 @@ public class SearchRide extends AppCompatActivity implements DatePickerDialog.On
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        date = dayOfMonth + "-" + month + "-" + year;
+        date = dayOfMonth + "-" + (month+1) + "-" + year;
         tvDate.setText(date);
     }
 

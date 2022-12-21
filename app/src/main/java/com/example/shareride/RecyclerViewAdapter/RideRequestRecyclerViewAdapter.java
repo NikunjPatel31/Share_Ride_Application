@@ -81,31 +81,35 @@ public class RideRequestRecyclerViewAdapter extends RecyclerView.Adapter<RideReq
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            DocumentSnapshot documentSnapshot = task.getResult();
-                            //offeredRide.setSourceLocation(documentSnapshot.get("Source Location"));
+                            try {
+                                DocumentSnapshot documentSnapshot = task.getResult();
+                                //offeredRide.setSourceLocation(documentSnapshot.get("Source Location"));
 
-                            HashMap<String, Double> map = (HashMap<String, Double>) documentSnapshot.get("Source Location");
-                            LatLng sourceLocation = new LatLng(map.get("latitude"), map.get("longitude"));
+                                HashMap<String, Double> map = (HashMap<String, Double>) documentSnapshot.get("Source Location");
+                                LatLng sourceLocation = new LatLng(map.get("latitude"), map.get("longitude"));
 
-                            map = (HashMap<String, Double>) documentSnapshot.get("Destination Location");
-                            LatLng destinationLocation = new LatLng(map.get("latitude"), map.get("longitude"));
+                                map = (HashMap<String, Double>) documentSnapshot.get("Destination Location");
+                                LatLng destinationLocation = new LatLng(map.get("latitude"), map.get("longitude"));
 
-                            offeredRide[0] = new OfferedRide();
-                            offeredRide[0].setRideID(documentSnapshot.getId());
-                            offeredRide[0].setSourceLocation(sourceLocation);
-                            offeredRide[0].setDestinationLocation(destinationLocation);
-                            offeredRide[0].setDate(documentSnapshot.get("Date").toString());
-                            offeredRide[0].setCostPerSeats(documentSnapshot.get("Cost Per Seats").toString());
-                            offeredRide[0].setSeats(Integer.parseInt(documentSnapshot.get("Seats").toString()));
-                            offeredRide[0].setTime(documentSnapshot.get("Time").toString());
-                            offeredRide[0].setRiderID(documentSnapshot.get("RiderID").toString());
-                            offeredRide[0].setPassengersIDList((ArrayList<String>) documentSnapshot.get("PassengerList"));
-                            Log.d(TAG, "onComplete: Passenger List: "+offeredRide[0].getPassengersIDList());//offeredRide[0].getPassengersIDList());
-                            holder.tvSourceLocationName.setText(documentSnapshot.get("Source Location Name").toString());
-                            holder.tvDestinationLocationName.setText(documentSnapshot.get("Destination Location Name").toString());
-                            holder.tvCost.setText("₹ "+documentSnapshot.get("Cost Per Seats").toString());
-                            holder.tvDate.setText(documentSnapshot.get("Date").toString());
-                            holder.tvSeats.setText(documentSnapshot.get("Seats").toString());
+                                offeredRide[0] = new OfferedRide();
+                                offeredRide[0].setRideID(documentSnapshot.getId());
+                                offeredRide[0].setSourceLocation(sourceLocation);
+                                offeredRide[0].setDestinationLocation(destinationLocation);
+                                offeredRide[0].setDate(documentSnapshot.get("Date").toString());
+                                offeredRide[0].setCostPerSeats(documentSnapshot.get("Cost Per Seats").toString());
+                                offeredRide[0].setSeats(Integer.parseInt(documentSnapshot.get("Seats").toString()));
+                                offeredRide[0].setTime(documentSnapshot.get("Time").toString());
+                                offeredRide[0].setRiderID(documentSnapshot.get("RiderID").toString());
+                                offeredRide[0].setPassengersIDList((ArrayList<String>) documentSnapshot.get("PassengerList"));
+                                Log.d(TAG, "onComplete: Passenger List: "+offeredRide[0].getPassengersIDList());//offeredRide[0].getPassengersIDList());
+                                holder.tvSourceLocationName.setText(documentSnapshot.get("Source Location Name").toString());
+                                holder.tvDestinationLocationName.setText(documentSnapshot.get("Destination Location Name").toString());
+                                holder.tvCost.setText("₹ "+documentSnapshot.get("Cost Per Seats").toString());
+                                holder.tvDate.setText(documentSnapshot.get("Date").toString());
+                                holder.tvSeats.setText(documentSnapshot.get("Seats").toString());
+                            } catch (Exception e) {
+                                Log.d(TAG, "onComplete: Exception: "+e.getLocalizedMessage());
+                            }
 
                         } else {
                             Log.d(TAG, "onComplete: Exception: "+task.getException());

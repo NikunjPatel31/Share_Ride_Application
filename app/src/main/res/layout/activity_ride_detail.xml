@@ -556,6 +556,18 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:visibility="invisible"
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyle"
+            android:theme="@style/ContentLoadingProgress"
+            app:layout_constraintStart_toStartOf="@+id/ride_complete_btn"
+            app:layout_constraintTop_toTopOf="@+id/ride_complete_btn"
+            app:layout_constraintEnd_toEndOf="@+id/ride_complete_btn"
+            app:layout_constraintBottom_toBottomOf="@+id/ride_complete_btn"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:onClick="rideComplete"
             android:id="@+id/ride_complete_btn"

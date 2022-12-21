@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -59,7 +60,7 @@ public class AddCar extends AppCompatActivity {
         // this method will handle button click event
         if (validateFields()) {
             uploadCarDetails();
-            finish();
+//            finish();
         }
     }
 
@@ -178,6 +179,13 @@ public class AddCar extends AppCompatActivity {
                 .child(UID)
                 .child(car_id);
 
+        childDB.child("User_id").setValue(UID);
+        childDB.child("Car_name").setValue(carName);
+        childDB.child("Model_year").setValue(carModel);
+        childDB.child("Air_conditioner").setValue(airConditionerVal);
+        childDB.child("Fuel_type").setValue(fuelVal);
+        childDB.child("Vehicle_number").setValue(vehicleNumber);
+
         storageReference.putFile(uploadUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -188,7 +196,15 @@ public class AddCar extends AppCompatActivity {
                         String path = uri.toString();
 
                         Log.d(TAG, "sendUserData: sending car image uri URI: "+path);
-                        childDB.child("Car_Image").setValue(path);
+                        childDB.child("Car_Image").setValue(path).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (!task.isSuccessful()) {
+                                    Toast.makeText(AddCar.this, "Error", Toast.LENGTH_SHORT).show();
+                                }
+                                finish();
+                            }
+                        });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -203,13 +219,6 @@ public class AddCar extends AppCompatActivity {
                 Log.d(TAG, "onFailure: Exception: "+e.getLocalizedMessage());
             }
         });
-
-        childDB.child("User_id").setValue(UID);
-        childDB.child("Car_name").setValue(carName);
-        childDB.child("Model_year").setValue(carModel);
-        childDB.child("Air_conditioner").setValue(airConditionerVal);
-        childDB.child("Fuel_type").setValue(fuelVal);
-        childDB.child("Vehicle_number").setValue(vehicleNumber);
     }
 
     @Override

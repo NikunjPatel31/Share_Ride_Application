@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgGif;
     private TextView tvRegister;
     private EditText etEmail, etPassword;
+    private ContentLoadingProgressBar progressBar;
+    private Button loginBtn;
 
     // local variable instance
     private String email, password;
@@ -47,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     public void signup(View view) {
+        progressBar.setVisibility(View.VISIBLE);
+        loginBtn.setVisibility(View.INVISIBLE);
         if (valiidateFields()) {
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -87,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                             else
                             {
-//                                progressBar.setVisibility(View.INVISIBLE);
-//                                loginBtn.setVisibility(View.VISIBLE);
+                                progressBar.setVisibility(View.INVISIBLE);
+                                loginBtn.setVisibility(View.VISIBLE);
 
                                 Log.d(TAG, "onComplete: error in signing in user. taskException: "+task.getException());
                             }
@@ -110,6 +116,9 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "No Account found.", Toast.LENGTH_SHORT).show();
                                 }
                             }
+
+                            progressBar.setVisibility(View.INVISIBLE);
+                            loginBtn.setVisibility(View.VISIBLE);
                         }
                     });
         }
@@ -149,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
         tvRegister = findViewById(R.id.register_text_view);
         etEmail = findViewById(R.id.email_edit_text);
         etPassword = findViewById(R.id.password_edit_text);
+        loginBtn = findViewById(R.id.login_button);
+        progressBar = findViewById(R.id.progress_bar);
     }
 
     private void initializeFirebaseInstances() {
